@@ -1,0 +1,13 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+// Project page lives at https://type37.github.io/dragon-rampant-2e-warband-builder/
+// Production build keeps the Pages base path; the dev server serves at root so
+// local preview tooling can reach it without the subpath.
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/dragon-rampant-2e-warband-builder/" : "/",
+  plugins: [react()],
+  // honour a PORT env var (preview tooling assigns one) so the dev server binds
+  // where the harness expects; falls back to Vite's default for plain `npm run dev`.
+  server: process.env.PORT ? { port: Number(process.env.PORT), strictPort: true } : undefined,
+}));
