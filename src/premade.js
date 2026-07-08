@@ -142,7 +142,7 @@ const CH9 = [
       { typeId: "scouts", label: "Goblin Ambushers", points: 5, options: [], xenos: { "concealment": true } },
       { typeId: "bellicose-foot", label: "Forest Trolls", points: 3, options: [], xenos: { "slow": true }, notes: "Slow but tough — a shambling threat the enemy must deal with." },
     ] },
-  { n: "beasts", icon: "spiked-dragon-head", name: "Fantastic Beasts", subtitle: "A monster sampler",
+  { n: "beasts", icon: "spiked-dragon-head", name: "Fantastic Beasts", subtitle: "",
     lore: "Not a warband in its own right but a bestiary of expensive, imposing creatures, from dragons and giants to manticores and worse, to drop in as the centrepiece of any force.",
     units: [
       { typeId: "greater-warbeasts", isCmd: true, label: "Ancient Dragon", points: 10, options: [], xenos: { "flyer": true, "spellcaster": 1 }, colours: ["Crimson", "Saffron"], notes: "Flying spellcasting dragon — the centrepiece. Everything else exists to keep it in the fight." },
@@ -274,7 +274,7 @@ const CH9 = [
       { typeId: "ravenous-hordes", label: "Slaves of the Khan", points: 2, options: [], xenos: { "large": true }, notes: "Large Ravenous Hordes driven forward as living shields." },
       { typeId: "ravenous-hordes", label: "Slaves of the Khan", points: 2, options: [], xenos: { "large": true }, notes: "Large Ravenous Hordes driven forward as living shields." },
     ] },
-  { n: "nine-travellers", name: "The Nine Travellers", subtitle: "The rulebook's ready-made nine-model list",
+  { n: "nine-travellers", name: "The Nine Travellers", subtitle: "",
     lore: "Plucky companions off on a quest that might take three whole books to finish: a mighty wizard, a ranger, an elf and a dwarf, and four halflings guarding something very precious. A ready-made warband of just nine models.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Mighty Wizard", points: 8, options: [], xenos: { "spellcaster": 3 }, colours: ["Amber", "Emerald", "Indigo", "Magenta"], notes: "A Level 3 spellcaster leading the quest — fragile, but the warband's engine." },
@@ -300,7 +300,7 @@ const CH9 = [
       { typeId: "light-foot", label: "Larger Sword-Mammals", points: 5, options: ["offensive"], xenos: {} },
       { typeId: "scouts", label: "Missile Mammals", points: 2, options: [], xenos: {}, notes: "Sparrows and slings raining down from the branches." },
     ] },
-  { n: "fell-host", name: "The Fell Host", subtitle: "Old-school fantasy evil", icon: "warlock-eye",
+  { n: "fell-host", name: "The Fell Host", subtitle: "", icon: "warlock-eye",
     lore: "A sorceress calls up every wicked thing that will answer: trolls and dire beasts, goblin wolf-packs, orc regiments and clattering skeletons. Less an army than a coalition of the cruel, in the spirit of the villains that lurked at the back of every old rulebook.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Sorceress", points: 5, options: [], xenos: { "spellcaster": 0 }, colours: ["Violet"], notes: "The dark mistress binding the host together. A single colour of magic, and the only thing keeping this rabble in line." },
@@ -311,7 +311,7 @@ const CH9 = [
       { typeId: "heavy-foot", label: "Orc Warriors", points: 4, options: [], xenos: {}, notes: "The blunt instrument of the horde: a solid block of muscle and malice." },
       { typeId: "light-foot", label: "Skeleton Rabble", points: 3, options: [], xenos: { "undead": true }, notes: "Undead levy that never routs, only crumbles. Cheap bodies to soak the charge." },
     ] },
-  { n: "night-legion", name: "The Night Legion", subtitle: "Gothic werewolves and vampire war-dancers", icon: "wolf-howl",
+  { n: "night-legion", name: "The Night Legion", subtitle: "", icon: "wolf-howl",
     lore: "A hunting host of shapeshifters and blood-drinkers that runs down its prey even by daylight. Graceful war-dancers hold the line with lethal blades while werewolf packs flank at terrifying speed, backed by human mercenaries and a flesh-devouring engine of iron. A tribute to the night-legions of gothic fantasy.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "War-Dancer Noble", points: 6, options: [], xenos: {}, notes: "A vampire blademaster leading from the front, all poise and menace." },
@@ -331,7 +331,7 @@ CH9.forEach((w) => { if (IMAGED.has(w.n)) w.image = `warbands/${w.n}.jpg`; });
 
 /* ---------------- RUNEWARS: THE MINIATURES GAME (core set) ---------------- */
 const RUNEWARS = [
-  { n: "daqan", icon: "knight-banner", name: "Daqan Lords", subtitle: "RuneWars core set",
+  { n: "daqan", icon: "knight-banner", name: "Daqan Lords", subtitle: "",
     lore: "The armies of the free baronies of Terrinoth: disciplined spearmen and Oathsworn cavalry, a towering Rune Golem, and the huntress Kari Wraithstalker.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Kari Wraithstalker", points: 8, options: ["missiles"], xenos: {} },
@@ -341,7 +341,7 @@ const RUNEWARS = [
       { typeId: "heavy-foot", label: "Citadel Spearmen", points: 4, options: [], xenos: {} },
       { typeId: "heavy-foot", label: "Citadel Spearmen", points: 4, options: [], xenos: {} },
     ] },
-  { n: "waiqar", icon: "death-skull", name: "Waiqar the Undying", subtitle: "RuneWars core set",
+  { n: "waiqar", icon: "death-skull", name: "Waiqar the Undying", subtitle: "",
     lore: "The undead legions of the betrayer Waiqar: shambling Reanimates and their archers, a monstrous Carrion Lancer, and the Death Knight Ardus Ix'Erebus.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Ardus Ix'Erebus", points: 7, options: [], xenos: { "undead": true, "champion-hewing": true } },
@@ -355,7 +355,7 @@ const RUNEWARS = [
 
 /* ---------------- KINGS OF WAR: BATTLE FOR THE CORAL GATE ---------------- */
 const KOW = [
-  { n: "trident", icon: "sea-dragon", name: "Trident Realm of Neritica", subtitle: "Battle for the Coral Gate",
+  { n: "trident", icon: "sea-dragon", name: "Trident Realm of Neritica", subtitle: "",
     lore: "The aquatic hosts of the deep: net-wielding Naiad Ensnarers, hopping Riverguard, hulking Dambusters, and a Depth Horror Eternal risen from the abyss.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Depth Horror Eternal", points: 7, options: [], xenos: { "amphibious": true } },
@@ -365,7 +365,7 @@ const KOW = [
       { typeId: "light-foot", label: "Naiad Ensnarers", points: 4, options: [], xenos: { "amphibious": true } },
       { typeId: "scouts", label: "Naiad Heartpiercers", points: 3, options: [], xenos: { "amphibious": true } },
     ] },
-  { n: "abyss", icon: "warlock-eye", name: "Forces of the Abyss", subtitle: "Battle for the Coral Gate",
+  { n: "abyss", icon: "warlock-eye", name: "Forces of the Abyss", subtitle: "",
     lore: "Demons pouring from the Abyssal rifts: rampaging Lower Abyssals and Berserkers, winged Nagarri, and a blazing Efreet at their head.",
     units: [
       { typeId: "greater-warbeasts", isCmd: true, label: "Efreet", points: 10, options: ["flame-spore"], xenos: { "flyer": true } },
@@ -374,7 +374,7 @@ const KOW = [
       { typeId: "bellicose-foot", label: "Lower Abyssals", points: 4, options: [], xenos: {} },
       { typeId: "bellicose-foot", label: "Lower Abyssals", points: 4, options: [], xenos: {} },
     ] },
-  { n: "basileans", icon: "angel-wings", name: "Basileans", subtitle: "Faith & Fury (Kings of War: Champions)",
+  { n: "basileans", icon: "angel-wings", name: "Basileans", subtitle: "",
     lore: "A holy company of the Hegemony: mailed Men-At-Arms behind a wall of shields, an elite lance of Paladin Knights, and the blessed heroine Alanis Sallustis warding her warriors from harm.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Alanis Sallustis", points: 8, options: [], xenos: { "divine-leadership": true } },
@@ -388,7 +388,7 @@ const KOW = [
 
 /* ---------------- A SONG OF ICE & FIRE (Stark vs Lannister) ---------------- */
 const ASOIAF = [
-  { n: "stark", icon: "wolf-head", name: "House Stark", subtitle: "Stark vs Lannister starter",
+  { n: "stark", icon: "wolf-head", name: "House Stark", subtitle: "",
     lore: "The wolves of the North: Sworn Swords and roaring Umber berserkers behind the Young Wolf and his direwolf, with the Greatjon towering over the line.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Robb Stark", points: 7, options: [], xenos: { "champion-hewing": true } },
@@ -397,7 +397,7 @@ const ASOIAF = [
       { typeId: "bellicose-foot", label: "Umber Berserkers", points: 6, options: [], xenos: { "berserk": true } },
       { typeId: "heavy-foot", label: "Stark Sworn Swords", points: 4, options: [], xenos: {} },
     ] },
-  { n: "lannister", icon: "crown", name: "House Lannister", subtitle: "Stark vs Lannister starter",
+  { n: "lannister", icon: "crown", name: "House Lannister", subtitle: "",
     lore: "Gold-cloaked discipline: drilled Guardsmen and Halberdiers holding the line while the Kingslayer leads and the Mountain That Rides breaks whatever stands before him.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Jaime Lannister", points: 9, options: [], xenos: { "enchanted-blades": true } },
@@ -412,7 +412,7 @@ const ASOIAF = [
    Eldfall warbands are only 4-5 heroes, so these are heroic-scale interpretations:
    mostly Single or Reduced Model Units scaled up to a 30-point Dragon Rampant force. */
 const ELDFALL = [
-  { n: "soga", icon: "crossed-swords", name: "Empire of Soga", subtitle: "Eldfall Chronicles starter (heroic scale)",
+  { n: "soga", icon: "crossed-swords", name: "Empire of Soga", subtitle: "",
     lore: "Stalwart bushi of a proud empire: a Clan Champion and their retainer, a demon-hunting Onitaoshi, and a spellweaving Kitsune priestess, with a summoned water spirit at their side.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Clan Champion", points: 9, options: [], xenos: { "enchanted-blades": true } },
@@ -421,7 +421,7 @@ const ELDFALL = [
       { typeId: "light-foot", label: "Kitsune Priestess", points: 4, options: [], xenos: { "spellcaster": 0 }, colours: ["Saffron"] },
       { typeId: "lesser-warbeasts", label: "Water Elemental", points: 5, options: [], xenos: { "amphibious": true } },
     ] },
-  { n: "helian", icon: "centurion-helmet", name: "Helian League", subtitle: "Eldfall Chronicles starter (heroic scale)",
+  { n: "helian", icon: "centurion-helmet", name: "Helian League", subtitle: "",
     lore: "A virtuous expedition of the League: an Expeditionary Hierophant and a Flame Shaper channelling fierce magic, a stoic Citadel Guard, and a Helrin expatriate blade, joined by a great water spirit.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Expeditionary Hierophant", points: 8, options: [], xenos: { "spellcaster": 1 }, colours: ["Amber", "Emerald"] },
@@ -434,7 +434,7 @@ const ELDFALL = [
 
 /* ---------------- WARHAMMER: AGE OF SIGMAR (Start Collecting! Ironjawz) ---------------- */
 const AOS = [
-  { n: "ironjawz", icon: "orc-head", name: "Ironjawz", subtitle: "Start Collecting! Ironjawz",
+  { n: "ironjawz", icon: "orc-head", name: "Ironjawz", subtitle: "",
     lore: "Brutal armour-clad orruks who live to smash: a Warchanter beating them into a frenzy, boar-mounted Gore-gruntas leading the charge, and blocks of 'Ardboyz swinging heavy iron.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Orruk Warchanter", points: 8, options: ["offensive"], xenos: { "drums-and-flags": true } },
