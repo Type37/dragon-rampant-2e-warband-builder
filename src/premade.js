@@ -445,18 +445,21 @@ export const SETTINGS = [
   {
     id: "asoiaf",
     name: "A Song of Ice & Fire",
+    hidden: true,
     blurb: "House Stark and House Lannister from the Stark vs Lannister starter set (CMON), statted up as Dragon Rampant Warbands.",
     detachments: ASOIAF,
   },
   {
     id: "eldfall",
     name: "Eldfall Chronicles",
+    hidden: true,
     blurb: "The Empire of Soga and the Helian League from Freecompany's two-player starter. Eldfall warbands are small, so these are heroic-scale interpretations of Single and Reduced Model Units.",
     detachments: ELDFALL,
   },
   {
     id: "age-of-sigmar",
     name: "Age of Sigmar",
+    hidden: true,
     blurb: "The Ironjawz orruks from the Start Collecting! box (Games Workshop), statted up as a Dragon Rampant Warband.",
     detachments: AOS,
   },

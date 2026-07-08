@@ -870,12 +870,39 @@ function BudgetPicker({ budget, onChange }) {
   );
 }
 
-/* renders a detachment's picture: an uploaded image or a chosen badge icon */
+/* true once an image URL has successfully loaded; false while loading or if it
+   errors (eg. a preset's rulebook art that only exists in local dev). data: URIs
+   from uploads resolve instantly, so this only ever fails for missing files. */
+function useImageOk(src) {
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    if (!src) { setOk(false); return undefined; }
+    let live = true; setOk(false);
+    const im = new window.Image(); // window.Image, not the imported icon component named Image
+    im.onload = () => { if (live) setOk(true); };
+    im.onerror = () => { if (live) setOk(false); };
+    im.src = src;
+    return () => { live = false; };
+  }, [src]);
+  return ok;
+}
+
+/* renders a warband's picture: an uploaded/preset image, or a chosen badge icon,
+   falling back to a dragon emblem when an expected image cannot be loaded. */
 function DetachIcon({ list, size = 26, className }) {
-  if (list && list.image) return <span className={className} style={{ backgroundImage: `url(${list.image})` }} aria-hidden="true" />;
-  const Ico = list && list.icon && DETACH_ICON_BY_ID[list.icon];
-  if (Ico) return <span className={`${className || ""} xr-dicon-glyph`} aria-hidden="true"><Ico size={size} /></span>;
-  return null;
+  const image = list && list.image;
+  const imgOk = useImageOk(image);
+  const Ico = (list && list.icon && DETACH_ICON_BY_ID[list.icon]) || BeastIco;
+  if (image && imgOk) return <span className={className} style={{ backgroundImage: `url(${image})` }} aria-hidden="true" />;
+  return <span className={`${className || ""} xr-dicon-glyph`} aria-hidden="true"><Ico size={size} /></span>;
+}
+
+/* preset-card art: the rulebook image when it loads (local dev), otherwise a
+   dragon emblem so cards never show a broken image on the deployed site. */
+function PresetArt({ src }) {
+  const ok = useImageOk(src);
+  if (src && ok) return <span className="xr-preset-img" style={{ backgroundImage: `url(${src})` }} aria-hidden="true" />;
+  return <span className="xr-preset-img xr-preset-img-fb" aria-hidden="true"><BeastIco size={44} /></span>;
 }
 
 /* email-style floating-label field: the label rests in the box, then lifts into
@@ -1044,9 +1071,10 @@ function LoadPresetModal({ onLoad, onClose }) {
             <div className="xr-preset-grid">
               {setting.detachments.map((d) => (
                 <button className="xr-preset-card" key={d.n} onClick={() => onLoad(d, setting)}>
-                  {d.image && <span className="xr-preset-img" style={{ backgroundImage: `url(${FACTION_BASE}${d.image})` }} aria-hidden="true" />}
+                  <PresetArt src={d.image ? `${FACTION_BASE}${d.image}` : null} />
                   <span className="xr-preset-name">{d.name}</span>
                   {d.subtitle && <span className="xr-preset-sub">{d.subtitle}</span>}
+                  {d.lore && <span className="xr-preset-lore">{d.lore}</span>}
                   <span className="xr-preset-foot">
                     <span className="xr-preset-meta">{detachmentUnits(d)} units, {detachmentPoints(d)} pts</span>
                     <span className="xr-preset-load"><Plus size={15} /> Load</span>
@@ -1061,12 +1089,54 @@ function LoadPresetModal({ onLoad, onClose }) {
   );
 }
 
+/* import a warband from a Share link or code: pull the payload out of a pasted
+   link (everything after #/s/) or take the whole string, validate it, then hand
+   off to the same #/s/ route the app already uses to rebuild and open it. */
+function ImportModal({ onClose }) {
+  const [text, setText] = useState("");
+  const [err, setErr] = useState("");
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  const doImport = () => {
+    const raw = text.trim();
+    if (!raw) { setErr("Paste a share link or code first."); return; }
+    const payload = raw.includes("#/s/") ? raw.split("#/s/").pop().trim() : raw.replace(/^#?\/?s\//, "").trim();
+    if (!decodeShare(payload)) { setErr("That does not look like a valid warband link or code."); return; }
+    onClose();
+    nav(`#/s/${payload}`);
+  };
+  return (
+    <div className="xr-modal-backdrop" onClick={onClose}>
+      <div className="xr-modal xr-modal-narrow" role="dialog" aria-modal="true" aria-label="Import a warband" onClick={(e) => e.stopPropagation()}>
+        <div className="xr-modal-head">
+          <span className="xr-modal-title"><LinkIc size={22} /> Import a warband</span>
+          <button className="xr-iconbtn" onClick={onClose} aria-label="Close"><XIc size={20} /></button>
+        </div>
+        <div className="xr-modal-body">
+          <p className="xr-custom-intro">Paste a share link (or just the code after <em>#/s/</em>) that someone sent you. It rebuilds their Warband as a new saved list. Pictures are not carried in the link.</p>
+          <textarea className="xr-field-in xr-field-area" value={text} autoFocus rows={4} spellCheck={false}
+            placeholder="https://type37.github.io/dragon-rampant-2e-warband-builder/#/s/…"
+            onChange={(e) => { setText(e.target.value); setErr(""); }} />
+          {err && <p className="xr-import-err">{err}</p>}
+        </div>
+        <div className="xr-modal-foot">
+          <button className="xr-btn primary" onClick={doImport}><LinkIc size={17} /> Import warband</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ================================================================== *
  * DASHBOARD (saved detachments)
  * ================================================================== */
 function Dashboard({ lists, onOpen, onCreate, onLoadPreset, onDup, onDel }) {
   const [creating, setCreating] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [importing, setImporting] = useState(false);
   const arr = Object.values(lists).sort((a, b) => (b.updated || 0) - (a.updated || 0));
   const collections = [...new Set(arr.map((l) => l.collection).filter(Boolean))].sort((a, b) => a.localeCompare(b));
   const groups = [
@@ -1100,6 +1170,10 @@ function Dashboard({ lists, onOpen, onCreate, onLoadPreset, onDup, onDel }) {
         <div className="xr-titlestack">
           <h1 className="xr-word">Dragon Rampant <span className="xr-word-ed">2e</span></h1>
           <span className="xr-sub">Warband Builder</span>
+        </div>
+        <div className="xr-mast-tools">
+          <button className="xr-btn small" onClick={() => setImporting(true)} title="Import a warband from a share link or code"><LinkIc size={17} /> Import</button>
+          <button className="xr-btn small" onClick={() => window.dispatchEvent(new CustomEvent("xr-open-rules"))} title="Quick rules reference"><Book size={17} /> Rules</button>
         </div>
       </header>
       <main className="xr-home-body">
@@ -1139,6 +1213,7 @@ function Dashboard({ lists, onOpen, onCreate, onLoadPreset, onDup, onDel }) {
       </main>
       {creating && <NewArmyModal collections={collections} onCreate={(opts) => { onCreate(opts); setCreating(false); }} onClose={() => setCreating(false)} />}
       {loading && <LoadPresetModal onLoad={(det, setting) => { onLoadPreset(det, setting); setLoading(false); }} onClose={() => setLoading(false)} />}
+      {importing && <ImportModal onClose={() => setImporting(false)} />}
       <SiteFooter />
     </div>
   );
@@ -2454,7 +2529,9 @@ const CSS = `
 
 /* ---------- dashboard ---------- */
 .xr-home{display:flex;flex-direction:column;min-height:100vh;padding-left:76px;}
-.xr-home-mast{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:22px clamp(16px,4vw,44px) 16px;border-bottom:3px solid var(--ink);}
+.xr-home-mast{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:22px clamp(16px,4vw,44px) 16px;border-bottom:3px solid var(--ink);}
+.xr-mast-tools{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.xr-import-err{font-family:var(--ui);font-size:14px;color:var(--coral-ink);margin-top:8px;}
 .xr-home-body{flex:1;width:100%;max-width:1160px;margin-inline:auto;padding:26px clamp(16px,4vw,44px) 60px;}
 .xr-home-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
 .xr-home-h{font-family:var(--display);font-weight:700;font-size:26px;display:inline-flex;align-items:baseline;gap:9px;}
@@ -2491,7 +2568,7 @@ const CSS = `
 
 /* ---------- builder ---------- */
 /* ---------- nav rail (view controls, grouped) ---------- */
-.xr-rail{position:fixed;left:0;top:0;bottom:0;width:76px;z-index:40;background:linear-gradient(180deg,#137a45,#116f89);display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:16px;}
+.xr-rail{position:fixed;left:0;top:0;bottom:0;width:76px;z-index:40;background:linear-gradient(180deg,#A72C31,#7E2126);display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:16px;}
 .xr-rail-logo{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#E8C860;}
 .xr-rail-nav{display:flex;flex-direction:column;gap:6px;width:100%;align-items:center;}
 .xr-rail-rules{margin-top:auto;}
@@ -3017,12 +3094,14 @@ const CSS = `
 .xr-preset-notes{font-family:var(--ui);font-size:13px;color:var(--ink-2);margin-bottom:14px;display:flex;flex-wrap:wrap;gap:4px 10px;}
 .xr-preset-notes a{color:var(--brand-deep-blue);text-decoration:none;font-weight:600;word-break:break-all;}
 .xr-preset-img{display:block;width:100%;height:118px;border-radius:8px;border:2px solid var(--ink);background-size:cover;background-position:center;background-color:var(--paper-3);margin-bottom:9px;}
+.xr-preset-img-fb{display:flex;align-items:center;justify-content:center;color:var(--coral);background:var(--paper-3);}
 .xr-preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px;}
 .xr-preset-card{display:flex;flex-direction:column;gap:3px;text-align:left;border:2.5px solid var(--ink);background:var(--paper-2);padding:13px 15px 11px;border-radius:var(--r);transition:.13s;}
 .xr-preset-card:hover{background:var(--paper-3);box-shadow:0 3px 10px rgba(36,31,26,.14);}
 .xr-preset-card:active{transform:scale(.98);}
 .xr-preset-name{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.15;}
-.xr-preset-sub{font-family:var(--flavor);font-style:italic;font-size:15px;color:var(--ink-2);line-height:1.3;margin-bottom:8px;}
+.xr-preset-sub{font-family:var(--flavor);font-style:italic;font-size:15px;color:var(--ink-2);line-height:1.3;}
+.xr-preset-lore{font-family:var(--body);font-size:14px;color:var(--ink-2);line-height:1.4;margin-top:6px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
 .xr-preset-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:8px;}
 .xr-preset-meta{font-family:var(--ui);font-weight:500;font-size:13.5px;color:var(--ink-2);}
 .xr-preset-load{display:inline-flex;align-items:center;gap:5px;font-family:var(--display);font-weight:600;font-size:14.5px;color:var(--cream);background:var(--ink);border-radius:8px;padding:6px 11px;}
