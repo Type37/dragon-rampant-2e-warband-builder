@@ -359,11 +359,21 @@ const OPTION_REMOVES = {
   "ponderous": ["Wild Charge"],
   "offensive": ["Wall of Spears"],
   "mixed-weapons": ["Wall of Spears"],
+  "shieldwall": ["Wall of Spears"],
+};
+/* options that grant a named special rule (Shieldwall replaces Wall of Spears) */
+const OPTION_ADDS = {
+  "shieldwall": ["Shieldwall"],
 };
 function unitSpecialRules(u, t) {
   const removed = new Set();
-  for (const oid of Object.keys(u.options || {})) (OPTION_REMOVES[oid] || []).forEach((r) => removed.add(r));
-  return (t.special || []).filter((s) => s && s !== "None" && !removed.has(s));
+  const added = [];
+  for (const oid of Object.keys(u.options || {})) {
+    (OPTION_REMOVES[oid] || []).forEach((r) => removed.add(r));
+    (OPTION_ADDS[oid] || []).forEach((r) => added.push(r));
+  }
+  const base = (t.special || []).filter((s) => s && s !== "None" && !removed.has(s));
+  return [...base, ...added.filter((r) => !base.includes(r))];
 }
 /* does this unit currently have a ranged attack? (base, or granted by an option) */
 function hasShoot(u, t) {
@@ -374,6 +384,7 @@ const hasUpg = (u, id) => !!(u && u.xenos && id in u.xenos);
 /* the fantastical upgrades a given unit may buy: availability list plus the
    per-unit gates (needs a Shoot Value, Leader-only, and so on). */
 function eligibleXenos(t, u) {
+  if (t.noUpgrades) return [];
   return XENO_RULES.filter((x) => {
     const av = x.avail || { type: "all" };
     let ok = true;
@@ -681,9 +692,17 @@ function deriveStats(u, t) {
   });
   return { act, prof, changed, dirs };
 }
+/* options whose stat bonus is conditional, shown as a small note beside the value */
+const COND_STATS = {
+  "pikes": { def: "3+ vs Mounted" },
+  "shielded": { arm: "+2 vs Shooting" },
+  "shieldwall": { arm: "+1 formed" },
+};
 function StatTable({ t, sp, u, hint = true, spBubbles = false }) {
   const d = u ? deriveStats(u, t) : { act: t.act, prof: t.prof, changed: new Set() };
   const spMod = !!u && sp !== t.sp;
+  const cond = {};
+  if (u) for (const k of Object.keys(u.options || {})) if (u.options[k] && COND_STATS[k]) Object.assign(cond, COND_STATS[k]);
   return (
     <div className="xr-stt">
       <div className="xr-stt-head">
@@ -708,7 +727,7 @@ function StatTable({ t, sp, u, hint = true, spBubbles = false }) {
               {v
                 ? (spBubbles && row.key === "sp"
                     ? <span className="xr-stt-bubbles" aria-label={`${v.main} Strength Points`}>{Array.from({ length: Math.max(0, Number(v.main) || 0) }, (_, bi) => <i key={bi} className="xr-bub" aria-hidden="true" />)}</span>
-                    : <><b>{v.main}</b>{v.range && <i className="xr-rng"> / {v.range} range</i>}</>)
+                    : <><b>{v.main}</b>{v.range && <i className="xr-rng"> / {v.range} range</i>}{cond[row.key] && <i className="xr-cond"> ({cond[row.key]})</i>}</>)
                 : <span className="xr-dash">-</span>}
               {modV && <span className={`xr-mod-dir ${dirV || "neutral"}`} aria-hidden="true">{dirV === "up" ? "▲" : dirV === "down" ? "▼" : "●"}</span>}
             </span>
@@ -2404,6 +2423,7 @@ const CSS = `
 .xr-die-free{position:absolute;right:4px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--ui);font-weight:800;font-size:8.5px;letter-spacing:.6px;line-height:1;text-transform:uppercase;color:#3a1206;}
 .xr-dash{color:var(--ink-2);opacity:.45;}
 .xr-rng{font-family:var(--body);font-style:italic;font-size:15px;color:var(--ink-2);margin-left:3px;white-space:nowrap;}
+.xr-cond{font-family:var(--ui);font-style:normal;font-size:11.5px;color:var(--coral-ink);margin-left:5px;white-space:nowrap;}
 
 /* stat table */
 .xr-stt{padding:4px 0 0;}

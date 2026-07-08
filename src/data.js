@@ -122,8 +122,9 @@ export const UNIT_TYPES = [
   "special": ["Wall of Spears"],
   "options": [
    { "id": "offensive", "name": "Offensive", "cost": 2, "conflicts": ["pikes"], "text": "Attack Value becomes 4+. The unit may no longer form a Wall of Spears." },
-   { "id": "pikes", "name": "Pikes", "cost": 1, "conflicts": ["offensive"], "text": "Defence Value becomes 3+ against Mounted units. Cannot be used with Offensive but may still form a Wall of Spears." },
-   { "id": "short-missiles", "name": "Short Range Missiles", "cost": 1, "text": "Equipped with javelins or the severed heads of vanquished foes. Add Shoot 6+ / Range 6\" with a Shoot Value of 5+." }
+   { "id": "pikes", "name": "Pikes", "cost": 1, "conflicts": ["offensive", "shieldwall"], "text": "Defence Value becomes 3+ against Mounted units. Cannot be used with Offensive but may still form a Wall of Spears." },
+   { "id": "short-missiles", "name": "Short Range Missiles", "cost": 1, "text": "Equipped with javelins or the severed heads of vanquished foes. Add Shoot 6+ / Range 6\" with a Shoot Value of 5+." },
+   { "id": "shieldwall", "name": "Shieldwall", "cost": 1, "conflicts": ["pikes"], "text": "Optional rule. A trained two-rank formation that replaces Wall of Spears, adding 1 to Armour against both Attacks and Shooting and allowing a half-distance move while formed. Cannot be used with Pikes." }
   ]
  },
  {
@@ -139,9 +140,10 @@ export const UNIT_TYPES = [
   "special": ["Wall of Spears"],
   "options": [
    { "id": "offensive", "name": "Offensive", "cost": 2, "conflicts": ["pikes", "mixed-weapons"], "text": "Attack Value becomes 4+. The unit may no longer form a Wall of Spears." },
-   { "id": "pikes", "name": "Pikes", "cost": 1, "conflicts": ["offensive", "mixed-weapons"], "text": "Defence Value becomes 3+ against Mounted units. Cannot be used with Offensive or Mixed Weapons but may still form a Wall of Spears." },
+   { "id": "pikes", "name": "Pikes", "cost": 1, "conflicts": ["offensive", "mixed-weapons", "shieldwall"], "text": "Defence Value becomes 3+ against Mounted units. Cannot be used with Offensive or Mixed Weapons but may still form a Wall of Spears." },
    { "id": "short-missiles", "name": "Short Range Missiles", "cost": 1, "conflicts": ["mixed-weapons"], "text": "Equipped with javelins, thrown rocks or shuriken. Add Shoot 6+ / Range 6\" with a Shoot Value of 5+." },
-   { "id": "mixed-weapons", "name": "Mixed Weapons", "cost": 2, "conflicts": ["offensive", "pikes", "short-missiles"], "text": "A mixture of melee and missile weapons, adding Shoot 6+ / Range 12\" with a Shoot Value of 5+. Removes Wall of Spears." }
+   { "id": "mixed-weapons", "name": "Mixed Weapons", "cost": 2, "conflicts": ["offensive", "pikes", "short-missiles"], "text": "A mixture of melee and missile weapons, adding Shoot 6+ / Range 12\" with a Shoot Value of 5+. Removes Wall of Spears." },
+   { "id": "shieldwall", "name": "Shieldwall", "cost": 1, "conflicts": ["pikes"], "text": "Optional rule. A trained two-rank formation that replaces Wall of Spears, adding 1 to Armour against both Attacks and Shooting and allowing a half-distance move while formed. Cannot be used with Pikes." }
   ]
  },
  {
@@ -218,6 +220,22 @@ export const UNIT_TYPES = [
   "prof": { "atk": "6", "def": "6", "sho": DASH, "arm": "1", "mov": "6\"" },
   "special": [],
   "options": []
+ },
+ /* ---------------- OPTIONAL (Chapter 5) ---------------- */
+ {
+  "id": "artillery",
+  "name": "Artillery",
+  "cls": "foot",
+  "cat": "foot",
+  "base": 6,
+  "sp": 6,
+  "optional": true,
+  "noUpgrades": true,
+  "role": "Optional rule, best in games above 36 army points and limited to one per Warband. Wheeled field pieces, catapults or large-calibre firearms: slow, short-legged, and no use in melee, but devastating at extreme range.",
+  "act": { "atk": DASH, "mov": "8+", "sho": "8+", "cou": "4+" },
+  "prof": { "atk": DASH, "def": "6", "sho": "3+ / 36\"", "arm": "3", "mov": "4\"" },
+  "special": ["Artillery"],
+  "options": []
  }
 ];
 
@@ -232,7 +250,9 @@ export const SPECIAL_RULES = {
  "Stomper": "If unable to Retreat the full distance because a friendly unit blocks its path, that friendly unit loses the same number of Strength Points as this unit. The friendly unit takes no Courage test and does not Retreat.",
  "Fleet Footed": "This unit does not halve its Move distance in rough terrain.",
  "Wall of Spears": "Needs at least 6 Strength Points. On a Move order, form a two-rank formation around a central model (not in rough terrain or cover, and it cannot then move). +1 Armour against Attacks but not Shooting. If an Attack ends with both units in contact and the Wall is neither Battered nor below 6 Strength Points, the enemy must Retreat. Becoming Battered, Retreating or dropping below 6 Strength Points breaks the formation.",
- "Hard To Target": "Scouts count as Armour 2 versus Shooting and may only be targeted within 12\"."
+ "Hard To Target": "Scouts count as Armour 2 versus Shooting and may only be targeted within 12\".",
+ "Artillery": "Counts as a Foot unit. May only fire within a 180-degree arc to its front and must Move to pivot. Cannot enter rough terrain or cross obstacles. A Leader's reroll cannot be used by Artillery, and it may take no fantastical upgrades.",
+ "Shieldwall": "Optional rule. A trained alternative to Wall of Spears: needs at least 6 Strength Points and forms a two-rank formation (not in rough terrain or cover). Adds 1 to Armour against both Attacks and Shooting, and may move at up to half distance while formed. If an Attack ends in contact and the Shieldwall is neither Battered nor below 6 Strength Points, the enemy must Retreat. Cannot be used with Pikes."
 };
 
 /* ---------------- FANTASTICAL UPGRADES (shared, Chapter 3) ----------------

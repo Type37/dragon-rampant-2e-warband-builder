@@ -10,4 +10,14 @@ export default defineConfig(({ command }) => ({
   // honour a PORT env var (preview tooling assigns one) so the dev server binds
   // where the harness expects; falls back to Vite's default for plain `npm run dev`.
   server: process.env.PORT ? { port: Number(process.env.PORT), strictPort: true } : undefined,
+  build: {
+    // split dependencies into a long-lived vendor chunk so app edits don't bust
+    // the cache for React and the bundled icon data.
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => (id.includes("node_modules") ? "vendor" : undefined),
+      },
+    },
+  },
 }));
