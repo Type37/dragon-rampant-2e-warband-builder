@@ -189,53 +189,27 @@ const StatAttack = mk(icSwordAttack), StatMove = mk(icRunFast), StatShoot = mk(i
 
 /* badge/emblem choices offered when starting a detachment; id is stored on the list.
    all monochrome, drawn in the ink colour, and shuffled for the picker below. */
+/* Fantasy emblems only. Dragon Rampant has no sci-fi, so the old science-fiction
+   badges (tanks, aliens, blasters, franchise logos) were removed entirely. */
 const DETACH_ICON_LIST = [
   { id: "crossed-swords", C: mk(giCrossedSwords) }, { id: "spartan-helmet", C: mk(giSpartan) },
   { id: "eagle-emblem", C: mk(giEagle) }, { id: "checked-shield", C: mk(giCheckedShield) },
   { id: "skull-crossed-bones", C: mk(giSkullCross) }, { id: "death-skull", C: mk(giDeathSkull) },
   { id: "crown", C: mk(giCrown) }, { id: "laurel-crown", C: mk(giLaurel) },
   { id: "wolf-head", C: mk(giWolf) }, { id: "dragon-head", C: mk(giDragon) },
-  { id: "battle-tank", C: mk(giTank) },
-  { id: "crosshair", C: mk(giCrosshair) }, { id: "biohazard", C: mk(giBiohazard) },
-  { id: "star-formation", C: mk(giStars) }, { id: "mailed-fist", C: mk(giFist) },
-  { id: "angel-wings", C: mk(giWings) }, { id: "gears", C: mk(giGears) },
-  { id: "radar-dish", C: mk(giRadar) }, { id: "flame", C: mk(giFlame) },
-  { id: "gun-rose", C: mk(giGunRose) }, { id: "meeple-army", C: mk(giMeeple) },
-  { id: "bear-face", C: mk(giBear) }, { id: "double-dragon", C: mk(giDoubleDragon) },
-  { id: "dragon-spiral", C: mk(giDragonSpiral) }, { id: "monster-grasp", C: mk(giMonsterGrasp) },
-  { id: "dead-eye", C: mk(giDeadEye) }, { id: "centurion-helmet", C: mk(giCenturion) },
+  { id: "mailed-fist", C: mk(giFist) }, { id: "angel-wings", C: mk(giWings) },
+  { id: "flame", C: mk(giFlame) }, { id: "bear-face", C: mk(giBear) },
+  { id: "double-dragon", C: mk(giDoubleDragon) }, { id: "dragon-spiral", C: mk(giDragonSpiral) },
+  { id: "monster-grasp", C: mk(giMonsterGrasp) }, { id: "centurion-helmet", C: mk(giCenturion) },
   { id: "elf-helmet", C: mk(giElfHelm) }, { id: "knight-banner", C: mk(giKnightBanner) },
   { id: "mounted-knight", C: mk(giMountedKnight) }, { id: "crowned-skull", C: mk(giCrownedSkull) },
   { id: "visored-helm", C: mk(giVisor) }, { id: "barbute", C: mk(giBarbute) },
-  { id: "alien-fire", C: mk(giAlienFire) }, { id: "alien-stare", C: mk(giAlienStare) },
-  { id: "spiky-explosion", C: mk(giExplosion) },
-  { id: "crossed-pistols", C: mk(giPistols) }, { id: "wolf-howl", C: mk(giWolfHowl) },
-  { id: "raven", C: mk(giRaven) },
+  { id: "wolf-howl", C: mk(giWolfHowl) }, { id: "raven", C: mk(giRaven) },
   { id: "spider-alt", C: mk(giSpider) }, { id: "hydra", C: mk(giHydra) },
-  { id: "tiger-head", C: mk(giTiger) },
-  { id: "mdi-skull", C: mk(miSkull) }, { id: "mdi-crosshair", C: mk(miCrosshair) },
-  { id: "mdi-cross", C: mk(miCross) }, { id: "mdi-knight", C: mk(miKnight) },
-  { id: "mdi-alien", C: mk(miAlien) }, { id: "tb-meteor", C: mk(tbMeteor) },
-  { id: "tb-sword", C: mk(tbSword) },
-  { id: "si-gunicorn", C: mk(siGunicorn) }, { id: "si-dassault", C: mk(siDassault) },
-  { id: "si-gitlab", C: mk(siGitlab) }, { id: "fa-empire", C: mk(faEmpire) },
-  { id: "fa-jedi", C: mk(faJedi) }, { id: "fa-mando", C: mk(faMando) },
-  { id: "fa-gitkraken", C: mk(faGitkraken) }, { id: "fa-senate", C: mk(faSenate) },
-  { id: "fa-joomla", C: mk(faJoomla) }, { id: "fa-phoenix", C: mk(faPhoenix) },
-  { id: "fa-watchman", C: mk(faWatchman) }, { id: "fa-fulcrum", C: mk(faFulcrum) },
-  { id: "fa-firstorder", C: mk(faFirstOrder) }, { id: "fa-oldrepublic", C: mk(faOldRepublic) },
+  { id: "tiger-head", C: mk(giTiger) }, { id: "mdi-knight", C: mk(miKnight) },
   { id: "fa-dragon", C: mk(faDragon) }, { id: "fa-skull", C: mk(faSkull) },
-  { id: "fa-khanda", C: mk(faKhanda) },
-  { id: "fi-dragonfly", C: mk(fiDragonfly) }, { id: "ic-shieldmoon", C: mk(icShieldMoon) },
-  { id: "im-wink", C: mk(imWink) }, { id: "cil-compress", C: mk(cilCompress) },
-  { id: "cil-functions", C: mk(cilFunctions) }, { id: "cil-football", C: mk(cilFootball) },
-  { id: "cil-diamond", C: mk(cilDiamond) }, { id: "cil-lifering", C: mk(cilLifeRing) },
-  { id: "cil-spa", C: mk(cilSpa) }, { id: "ar-attack", C: mk(arAttack) },
-  { id: "ar-chess", C: mk(arChess) }, { id: "ar-aichat", C: mk(arAiChat) },
-  { id: "ar-aaaaxy", C: mk(arAaaaxy) }, { id: "ar-triodos", C: mk(arTriodos) },
-  { id: "mdi-crossbolnisi", C: mk(mdiCrossBolnisi) }, { id: "mdi-crosshairs", C: mk(mdiCrosshairs) },
-  { id: "hi-death", C: mk(hiDeath) }, { id: "hi-deathoutline", C: mk(hiDeathOutline) },
-  { id: "hi-skull", C: mk(hiSkull) }, { id: "ms-swords", C: mk(msSwords) },
+  { id: "fa-khanda", C: mk(faKhanda) }, { id: "ic-shieldmoon", C: mk(icShieldMoon) },
+  { id: "ms-swords", C: mk(msSwords) },
   ...Object.entries(EMBLEM_EXTRA).map(([id, d]) => ({ id, C: mk(d) })),
 ];
 const DETACH_ICON_BY_ID = Object.fromEntries(DETACH_ICON_LIST.map((i) => [i.id, i.C]));
@@ -520,7 +494,18 @@ const detachmentUnits = (det) => det.units.reduce((n, e) => n + (e.count || 1), 
 const LS_LISTS = "drb.lists";
 const LS_CURRENT = "drb.current";
 function loadLists() {
-  try { return JSON.parse(localStorage.getItem(LS_LISTS)) || {}; } catch { return {}; }
+  let lists;
+  try { lists = JSON.parse(localStorage.getItem(LS_LISTS)) || {}; } catch { return {}; }
+  // migrate away the retired sci-fi emblems: any stored icon that is no longer in
+  // the fantasy pool is swapped for a fantasy one so old warbands never show a
+  // stale badge (tank, radar dish, franchise logo, and so on).
+  let changed = false;
+  for (const id in lists) {
+    const l = lists[id];
+    if (l && l.icon && !DETACH_ICON_BY_ID[l.icon]) { l.icon = randomEmblemId(); changed = true; }
+  }
+  if (changed) saveLists(lists);
+  return lists;
 }
 function saveLists(lists) {
   try { localStorage.setItem(LS_LISTS, JSON.stringify(lists)); } catch { /* storage full or blocked */ }
