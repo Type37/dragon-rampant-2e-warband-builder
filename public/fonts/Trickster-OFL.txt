@@ -1,0 +1,8 @@
+Trickster
+Designer: Jean-Baptiste Morizot
+Foundry: Velvetyne Type Foundry (https://velvetyne.fr/fonts/trickster/)
+Source: https://github.com/velvetyne/Trickster
+License: SIL Open Font License, Version 1.1 (https://scripts.sil.org/OFL)
+
+Used in this project for the masthead logo. Bundled and self-hosted in
+accordance with the OFL, which permits free use, embedding and redistribution.
