@@ -12,7 +12,7 @@
 
 /* ---------------- ROTTINGUTT (the rulebook's worked example) ---------------- */
 const ROTTINGUTT_24 = {
-  n: "rot24", icon: "goblin", name: "Rottingutt's Malodorous Goblins", subtitle: "Foul-Wind Pass", budget: 24,
+  n: "rot24", icon: "goblin", name: "Rottingutt's Malodorous Goblins", subtitle: "", budget: 24,
   lore: "“Burnin', lootin', raidin', shootin' (repeat): We're the Warriors of Rottingutt.” The classic starter Warband, fielded at its leanest.",
   units: [
     { typeId: "heavy-foot", isCmd: true, label: "Rottingutt & Bodyguards", points: 6, options: ["offensive"], xenos: {}, notes: "Rottingutt himself, hemmed in by his least-trusted lieutenants. Your free Leader — keep him near the front so his Courage bonus reaches the mob." },
@@ -25,7 +25,7 @@ const ROTTINGUTT_24 = {
   ],
 };
 const ROTTINGUTT_30 = {
-  n: "rot30", icon: "goblin", name: "Rottingutt's Malodorous Goblins", subtitle: "Foul-Wind Pass", budget: 30,
+  n: "rot30", icon: "goblin", name: "Rottingutt's Malodorous Goblins", subtitle: "", budget: 30,
   lore: "The same models upgraded to the 2e standard size: the Warriors harden into Heavy Foot, Rottingutt turns Brutal, and the wolf archers learn to shoot straight.",
   units: [
     { typeId: "heavy-foot", isCmd: true, label: "Rottingutt & Bodyguards", points: 8, options: ["offensive"], xenos: { "brutal": true, "champion-hewing": true }, notes: "Now Brutal and Sharing the Hurt: he hits harder and drags a hero down with him when he falls." },
@@ -38,7 +38,7 @@ const ROTTINGUTT_30 = {
   ],
 };
 const ROTTINGUTT_36 = {
-  n: "rot36", icon: "goblin", name: "Rottingutt's Malodorous Goblins", subtitle: "Foul-Wind Pass", budget: 36,
+  n: "rot36", icon: "goblin", name: "Rottingutt's Malodorous Goblins", subtitle: "", budget: 36,
   lore: "The 30-point Warband plus a pack of Hungry Wolves and a Bloodthirsty upgrade for the lancers.",
   units: [
     { typeId: "heavy-foot", isCmd: true, label: "Rottingutt & Bodyguards", points: 8, options: ["offensive"], xenos: { "brutal": true, "champion-hewing": true } },
@@ -54,7 +54,7 @@ const ROTTINGUTT_36 = {
 
 /* ---------------- CHAPTER 9 ARCHETYPES (30-point builds) ---------------- */
 const CH9 = [
-  { n: "bog", icon: "wolf-head", name: "Bog People", subtitle: "Barbarica",
+  { n: "bog", icon: "wolf-head", name: "Bog People", subtitle: "",
     lore: "A dark-haired ancient tribe of the lowlands who field cavalry, archers and hunters beside their warriors. Witches and wolves march with them into battle, along with wolfskin warriors who take on the shape of wolves when the fight turns against them.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Mounted Warchief", points: 9, options: [], xenos: { "enchanted-blades": true }, notes: "The tribe's rider-lord, blade enchanted against armour. Fast and hard-hitting, but he is your only real anvil." },
@@ -64,7 +64,7 @@ const CH9 = [
       { typeId: "light-foot", label: "Warriors", points: 3, options: [], xenos: {} },
       { typeId: "light-foot", label: "Warriors", points: 3, options: [], xenos: {} },
     ] },
-  { n: "mtn-dwarves", icon: "dwarf-king", name: "Mountain Dwarves", subtitle: "Barbarica",
+  { n: "mtn-dwarves", icon: "dwarf-king", name: "Mountain Dwarves", subtitle: "",
     lore: "Skilled metalworkers of the northern peaks, armoured more heavily than the tribes around them, save their berserkers who scorn such protection. They often ally with Northlanders, but now and then muster from the mountains as a power in their own right.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Lords", points: 10, options: [], xenos: { "fearsome": true, "mystical-armour": true }, notes: "Fearsome and Mystically Armoured: nearly unkillable at the front, and enemies think twice before charging." },
@@ -73,7 +73,7 @@ const CH9 = [
       { typeId: "heavy-foot", label: "Spearmen", points: 4, options: [], xenos: {} },
       { typeId: "heavy-foot", label: "Spearmen", points: 4, options: [], xenos: {} },
     ] },
-  { n: "northlanders", icon: "bear-face", name: "Northlanders", subtitle: "Barbarica",
+  { n: "northlanders", icon: "bear-face", name: "Northlanders", subtitle: "",
     lore: "Squabbling northern tribes of ferocious close-quarter fighters, lightly armoured and scornful of missile weapons. Cave bears and giants lumber alongside them, and rumours persist of warriors who take a bear's shape when their blood is up.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Mounted Warchief", points: 8, options: [], xenos: { "fearsome": true }, notes: "Fearsome saga-lord: put him where the enemy line is weakest and let the Courage tests pile up." },
@@ -83,7 +83,7 @@ const CH9 = [
       { typeId: "lesser-warbeasts", label: "Cave Bears", points: 4, options: [], xenos: {}, notes: "Big, dumb, and dangerous. A cheap charge-piece to soak attacks meant for your warriors." },
       { typeId: "heavy-riders", label: "Mounted Warriors", points: 4, options: [], xenos: {} },
     ] },
-  { n: "picts", name: "Picts", subtitle: "Barbarica",
+  { n: "picts", name: "Picts", subtitle: "",
     lore: "The people of the never-conquered Dark Isle, a realm of enchantments and elder gods; elsewhere they lurk underground with poisoned weapons, creeping from hidden lairs. Cave trolls join their raids, and most feared of all is the Great Burrower that erupts from the earth.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Shamans & Witches", points: 8, options: [], xenos: { "venomous": true, "spellcaster": 0 }, colours: ["Violet"], notes: "Venomous spellcasters — poison plus a colour of magic makes them punch above their price." },
