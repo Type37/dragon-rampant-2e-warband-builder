@@ -445,12 +445,24 @@ const AOS = [
     ] },
 ];
 
+/* the rulebook groups its archetypes by region; Barbarica is the barbarian set,
+   pulled into its own collection here. */
+const BARBARICA_IDS = new Set(["bog", "mtn-dwarves", "northlanders", "picts"]);
+const BARBARICA = CH9.filter((w) => BARBARICA_IDS.has(w.n));
+const CH9_OTHER = CH9.filter((w) => !BARBARICA_IDS.has(w.n));
+
 export const SETTINGS = [
   {
     id: "sample-warbands",
     name: "Sample Warbands",
-    blurb: "The rulebook's worked example, Rottingutt's Malodorous Goblins, at all three army sizes, plus a 30-point build of every archetype from Chapter 9.",
-    detachments: [ROTTINGUTT_24, ROTTINGUTT_30, ROTTINGUTT_36, ...CH9],
+    blurb: "The rulebook's worked example, Rottingutt's Malodorous Goblins, at all three army sizes, plus a 30-point build of the other Chapter 9 archetypes.",
+    detachments: [ROTTINGUTT_24, ROTTINGUTT_30, ROTTINGUTT_36, ...CH9_OTHER],
+  },
+  {
+    id: "barbarica",
+    name: "Barbarica",
+    blurb: "The barbarian archetypes of Chapter 9: a dark-haired lowland tribe, heavily-armoured mountain dwarves, ferocious northern raiders, and the never-conquered painted folk. Each is one legal 30-point build; swap units to taste.",
+    detachments: BARBARICA,
   },
   {
     id: "runewars",
