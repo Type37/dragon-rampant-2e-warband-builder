@@ -55,7 +55,7 @@ const ROTTINGUTT_36 = {
 /* ---------------- CHAPTER 9 ARCHETYPES (30-point builds) ---------------- */
 const CH9 = [
   { n: "bog", name: "Bog People", subtitle: "Barbarica — 30 army points",
-    lore: "A dark-haired ancient tribe of cavalry, archers, hunters and shape-changing wolfskin warriors, with witches and wolves at their side.",
+    lore: "A dark-haired ancient tribe of the lowlands who field cavalry, archers and hunters beside their warriors. Witches and wolves march with them into battle, along with wolfskin warriors who take on the shape of wolves when the fight turns against them.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Mounted Warchief", points: 9, options: [], xenos: { "enchanted-blades": true } },
       { typeId: "light-foot", label: "Wolfskin Warriors", points: 7, options: ["offensive"], xenos: { "were-creature": true } },
@@ -65,7 +65,7 @@ const CH9 = [
       { typeId: "light-foot", label: "Warriors", points: 3, options: [], xenos: {} },
     ] },
   { n: "mtn-dwarves", name: "Mountain Dwarves", subtitle: "Barbarica — 30 army points",
-    lore: "Skilled, heavily-armoured metalworkers of the northern peaks, save their berserkers who shun such mortal protection.",
+    lore: "Skilled metalworkers of the northern peaks, armoured more heavily than the tribes around them, save their berserkers who scorn such protection. They often ally with Northlanders, but now and then muster from the mountains as a power in their own right.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Lords", points: 10, options: [], xenos: { "fearsome": true, "mystical-armour": true } },
       { typeId: "bellicose-foot", label: "Berserkers", points: 6, options: [], xenos: { "berserk": true } },
@@ -74,7 +74,7 @@ const CH9 = [
       { typeId: "heavy-foot", label: "Spearmen", points: 4, options: [], xenos: {} },
     ] },
   { n: "northlanders", name: "Northlanders", subtitle: "Barbarica — 30 army points",
-    lore: "Squabbling tribes of ferocious close-quarter fighters who despise missile weapons, riding wolves and bears into battle.",
+    lore: "Squabbling northern tribes of ferocious close-quarter fighters, lightly armoured and scornful of missile weapons. Cave bears and giants lumber alongside them, and rumours persist of warriors who take a bear's shape when their blood is up.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Mounted Warchief", points: 8, options: [], xenos: { "fearsome": true } },
       { typeId: "heavy-foot", label: "Skalds & Witches", points: 6, options: [], xenos: { "spellcaster": 1 }, colours: ["Amber", "Magenta"] },
@@ -84,7 +84,7 @@ const CH9 = [
       { typeId: "heavy-riders", label: "Mounted Warriors", points: 4, options: [], xenos: {} },
     ] },
   { n: "picts", name: "Picts", subtitle: "Barbarica — 30 army points",
-    lore: "The people of the Dark Isle, worshippers of elder gods, armed with poisoned weapons and lurking below the ground.",
+    lore: "The people of the never-conquered Dark Isle, a realm of enchantments and elder gods; elsewhere they lurk underground with poisoned weapons, creeping from hidden lairs. Cave trolls join their raids, and most feared of all is the Great Burrower that erupts from the earth.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Shamans & Witches", points: 8, options: [], xenos: { "venomous": true, "spellcaster": 0 }, colours: ["Violet"] },
       { typeId: "bellicose-foot", label: "Champions", points: 8, options: [], xenos: { "champion-hewing": true, "venomous": true } },
@@ -94,7 +94,7 @@ const CH9 = [
       { typeId: "scouts", label: "Ambushers", points: 3, options: [], xenos: { "sneakers": true } },
     ] },
   { n: "bronze-age", name: "Bronze Age Heroes", subtitle: "30 army points",
-    lore: "Chariots and heroes from the pages of myth and legend, supported by spearmen, archers and the occasional passing god.",
+    lore: "Chariots and champions from the pages of myth, giving battle in the shadow of great pyramids or the boggy fens of the north. They fight from chariot and horseback behind spears and bows, aided by exotic warrior-allies, wild beasts, and the occasional passing god.",
     units: [
       { typeId: "heavy-riders", isCmd: true, label: "Warlord in Chariot", points: 8, options: ["chariots"], xenos: { "courageous": true } },
       { typeId: "heavy-riders", label: "Heroes in Chariots", points: 7, options: ["chariots"], xenos: { "champion-hewing": true } },
@@ -104,7 +104,7 @@ const CH9 = [
       { typeId: "light-foot", label: "Spearmen", points: 3, options: [], xenos: {} },
     ] },
   { n: "centaurs", name: "Centaurs", subtitle: "30 army points",
-    lore: "Fast, tough half-horse warriors with a Classical Greek theme, proficient with bow and spear and marching alongside hoplite allies.",
+    lore: "Fast, tough part-human, part-horse warriors with a Classical Greek theme, proficient with bow and spear. Human hoplite spearmen sometimes march in support of their four-legged chums.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Warchief & Escort", points: 8, options: [], xenos: { "mystical-armour": true } },
       { typeId: "heavy-riders", label: "Sagittarii", points: 6, options: ["mounted-missiles-add"], xenos: { "fast": true } },
@@ -114,7 +114,7 @@ const CH9 = [
       { typeId: "heavy-foot", label: "Hoplite Allies", points: 4, options: [], xenos: {} },
     ] },
   { n: "dwarves", name: "Dwarves", subtitle: "30 army points",
-    lore: "Bearded, grumpy, heavily-armoured stone- and metal-workers with unnaturally sharp axes. Never mention their height.",
+    lore: "Bearded, grumpy, heavily-armoured stone- and metal-workers who carve out vast ornate underground kingdoms and wield unnaturally sharp axes. Never mention their height, or the popular sport of dwarf-tossing.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Lord & Hornblowers", points: 10, options: [], xenos: { "drums-and-flags": true, "fearsome": true } },
       { typeId: "heavy-foot", label: "Axe Thanes", points: 6, options: ["offensive"], xenos: {} },
@@ -124,7 +124,7 @@ const CH9 = [
       { typeId: "scouts", label: "Archers", points: 2, options: [], xenos: {} },
     ] },
   { n: "elves", name: "Elves", subtitle: "30 army points",
-    lore: "Ethereal archers renowned for deadly missile fire, led by a spell-slinging Prince and supported by treemen from the deep woods.",
+    lore: "Ethereal folk renowned for their love of luxury and, more to the point, their deadly archery, so their warbands lean heavily on missile units. Wood, High, Sea and Dark Elves field princes, champions and treemen from the deep woods.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Prince or Princess", points: 10, options: [], xenos: { "mystical-armour": true, "spellcaster": 1 }, colours: ["Amber", "Jade"] },
       { typeId: "greater-warbeasts", label: "Treemen", points: 6, options: [], xenos: {} },
@@ -134,7 +134,7 @@ const CH9 = [
       { typeId: "scouts", label: "Watchers", points: 2, options: [], xenos: {} },
     ] },
   { n: "faerie", name: "Faerie Borderlands", subtitle: "30 army points",
-    lore: "Old trollkin shamans leading lesser trolls and marshland goblins who magically blend into the landscape.",
+    lore: "Old trollkin shamans of the border forests, leading lesser trolls and marshland goblins whose Concealment lets them melt into the landscape. Their shaman-leader is an unusually powerful spellcaster who enchants goblin weapons before battle.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Forest Troll Wise Old Shaman", points: 7, options: [], xenos: { "spellcaster": 2 }, colours: ["Jade", "Saffron", "Emerald"] },
       { typeId: "heavy-foot", label: "Goblin Knights", points: 7, options: [], xenos: { "enchanted-blades": true } },
@@ -143,7 +143,7 @@ const CH9 = [
       { typeId: "bellicose-foot", label: "Forest Trolls", points: 3, options: [], xenos: { "slow": true } },
     ] },
   { n: "beasts", name: "Fantastic Beasts", subtitle: "A monster sampler — 30 army points",
-    lore: "Not a Warband in its own right, but a centrepiece of expensive, imposing creatures to drop into any list.",
+    lore: "Not a warband in its own right but a bestiary of expensive, imposing creatures, from dragons and giants to manticores and worse, to drop in as the centrepiece of any force.",
     units: [
       { typeId: "greater-warbeasts", isCmd: true, label: "Ancient Dragon", points: 10, options: [], xenos: { "flyer": true, "spellcaster": 1 }, colours: ["Crimson", "Saffron"] },
       { typeId: "elite-foot", label: "Cerne Abbas Giant", points: 8, options: [], xenos: { "fearsome": true } },
@@ -151,7 +151,7 @@ const CH9 = [
       { typeId: "lesser-warbeasts", label: "Humongous Maggots", points: 6, options: [], xenos: { "cannibalistic": true, "slow": true } },
     ] },
   { n: "gnomes", name: "Gnomes & Halflings", subtitle: "30 army points",
-    lore: "Small folk with a penchant for longish spears and missile weapons, relying on numbers over individual strength.",
+    lore: "Small folk twinned into one warband: gnomes bearded on the chin, halflings on their hairy feet, both fond of longish spears and missiles. They rely on numbers over individual strength, so single models are rare.",
     units: [
       { typeId: "light-foot", isCmd: true, label: "Captain & Serjeants", points: 6, options: ["offensive", "short-missiles"], xenos: {} },
       { typeId: "light-foot", label: "Halfling Ambushers", points: 6, options: [], xenos: { "concealment": true } },
@@ -163,7 +163,7 @@ const CH9 = [
       { typeId: "scouts", label: "Slingers", points: 2, options: [], xenos: {} },
     ] },
   { n: "goblins", name: "Goblins", subtitle: "30 army points",
-    lore: "A widespread, universally unpopular nuisance of woodland and mountain, joined by trolls and wolves who should know better.",
+    lore: "A widespread and near-universally loathed nuisance, dwelling in woods, over misty mountains and far out at sea. Hobgoblins are bigger and meaner, and trolls and wolves lack the sense not to run with the gobbos, which is what makes them such fun to collect.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Overlord & Bodyguards", points: 6, options: ["offensive"], xenos: {} },
       { typeId: "heavy-foot", label: "Trolls", points: 9, options: ["offensive"], xenos: { "regeneration": true } },
@@ -174,7 +174,7 @@ const CH9 = [
       { typeId: "scouts", label: "Pricklers", points: 2, options: [], xenos: {} },
     ] },
   { n: "graveyard", name: "Graveyard Dwellers", subtitle: "30 army points",
-    lore: "Slain enemies that come back for revenge: a Necromancer throwing up skeletons and zombies, backed by vampires and hungry ghouls.",
+    lore: "Slain foes who claw their way back weeks later to reap their revenge. A necromancer throws up skeletons and zombies with wild abandon, backed by vampires and hungry ghouls, and becomes a Lich Lord if you make him Undead.",
     units: [
       { typeId: "heavy-missiles", isCmd: true, label: "Necromancer", points: 7, options: [], xenos: { "summoner": true } },
       { typeId: "elite-foot", label: "Vampires", points: 6, options: [], xenos: { "undead": true } },
@@ -186,7 +186,7 @@ const CH9 = [
       { typeId: "ravenous-hordes", label: "Zombies", points: 1, options: [], xenos: { "undead": true } },
     ] },
   { n: "cave-people", name: "Hollywood Cave People", subtitle: "30 army points",
-    lore: "Cave dwellers who do battle with dinosaurs from a different era, believing in shamanism and hitting things with a big stone.",
+    lore: "Cave dwellers who emerge to do battle with dinosaurs from another era, believing in shamanism, big stones and rubbing one stick on another. Some are humans, some are apes forging a rough civilization, however you like your low-tech world.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Barbarian Queen", points: 8, options: [], xenos: { "courageous": true } },
       { typeId: "greater-warbeasts", label: "Big Dinosaur", points: 10, options: ["ponderous"], xenos: { "large": true } },
@@ -195,7 +195,7 @@ const CH9 = [
       { typeId: "scouts", label: "Shamans", points: 4, options: [], xenos: { "repellent": true } },
     ] },
   { n: "shining-citadel", name: "Knights of the Shining Citadel", subtitle: "30 army points",
-    lore: "Self-important knights of the Round Table: tough tin cans to prise open, but single-minded and short on missile support.",
+    lore: "Self-important knights who debate honour around a round table, then throw chivalry out of the window once battle joins. Tough tin cans to prise open, but single-minded and short on missile support.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Prince", points: 10, options: [], xenos: { "blessed-blades": true } },
       { typeId: "elite-riders", label: "Knights", points: 6, options: [], xenos: {} },
@@ -204,7 +204,7 @@ const CH9 = [
       { typeId: "heavy-riders", label: "Squires", points: 4, options: [], xenos: {} },
     ] },
   { n: "lizard-kin", name: "Lizard Kin", subtitle: "30 army points",
-    lore: "Large, intelligent reptiles at home in marshes and swamps, calling on cold-blooded allies and ancient reptilian gods.",
+    lore: "Large, intelligent reptiles at home in marsh and swamp, battering their foes with stone and obsidian weapons. Their many sub-kings call on cold-blooded allies and are sometimes accompanied by ancient, god-like reptilian creatures.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Sub-King & Bodyguards", points: 8, options: [], xenos: { "fearless": true, "spell-resistant": true } },
       { typeId: "heavy-foot", label: "Armoured Cultists", points: 6, options: ["offensive"], xenos: {} },
@@ -214,7 +214,7 @@ const CH9 = [
       { typeId: "scouts", label: "Swamp Dwellers", points: 3, options: [], xenos: { "amphibious": true } },
     ] },
   { n: "men-north", name: "Men of the North", subtitle: "30 army points",
-    lore: "Furry-faced, horn-helmeted warriors who vacation by longship and ride buffalo, wolves and bears. Berserkers over gravlax and dill.",
+    lore: "Furry-faced warriors in horned helmets who go on vacation by longship and ride buffalo, wolves and bears rather than horses. A warband for readers of Beowulf and the sagas; sprinkle in berserkers and shape-shifters to taste.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Chieftain & Heroes", points: 10, options: [], xenos: { "enchanted-blades": true, "fearless": true } },
       { typeId: "bellicose-foot", label: "Thanes", points: 6, options: ["armoured"], xenos: {} },
@@ -224,7 +224,7 @@ const CH9 = [
       { typeId: "scouts", label: "Shamanic Dancers", points: 2, options: [], xenos: {} },
     ] },
   { n: "men-west", name: "Men of the West", subtitle: "30 army points",
-    lore: "A Western European Dark Ages or medieval Warband of armoured cavalry, spearmen, bowmen and gleaming heroes.",
+    lore: "A Western European Dark Ages or medieval warband of well-armoured cavalry, spearmen, bowmen and gleaming heroes, often uniformed in an earl's or city's colours. Slightly more sophisticated than the Men of the North, and they may even bathe once or twice in a lifetime.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Earl & Kindred", points: 10, options: [], xenos: { "blessed-blades": true } },
       { typeId: "heavy-foot", label: "Wizard & Apprentices", points: 6, options: [], xenos: { "spellcaster": 1 }, colours: ["Magenta", "Amber"] },
@@ -233,7 +233,7 @@ const CH9 = [
       { typeId: "light-missiles", label: "Archers", points: 4, options: [], xenos: {} },
     ] },
   { n: "orcs", name: "Orcs", subtitle: "30 army points",
-    lore: "Brutish, squalid, ugly and cruel, fighting on foot and mounted on wolves and boars, with half-orcs and ogres in tow.",
+    lore: "Brutish, squalid, ugly and cruel, which does rather make you wonder why you'd command them. They come in every shape, fighting on foot and mounted on wolves and boars, with interbred half-orcs and hulking ogres rounding out the horde.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Chieftain & Bully Boys", points: 6, options: ["offensive"], xenos: { "champion-hewing": true, "insipid": true } },
       { typeId: "bellicose-foot", label: "Great Mountain Orcs", points: 6, options: ["armoured"], xenos: {} },
@@ -243,7 +243,7 @@ const CH9 = [
       { typeId: "heavy-riders", label: "Boar Riders", points: 4, options: [], xenos: {} },
     ] },
   { n: "rat-kin", name: "Rat Kin", subtitle: "30 army points",
-    lore: "Man-rats who build sewer-piracy societies and control ordinary rats in great swarms, with shay-rat shamans and jezzail muskets.",
+    lore: "Man-rats who build sewer-and-piracy societies and drive ordinary rats before them in great swarms. Shay-rat shamans conjure allies from thin air, and some worlds arm them with jezzail muskets in an otherwise gunpowder-free age.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Petty King & Retainers", points: 6, options: ["offensive"], xenos: {} },
       { typeId: "bellicose-foot", label: "Sword Rats", points: 7, options: [], xenos: { "venomous": true } },
@@ -254,7 +254,7 @@ const CH9 = [
       { typeId: "scouts", label: "Rattish Slingers", points: 2, options: [], xenos: {} },
     ] },
   { n: "renaissance", name: "Renaissance Men", subtitle: "30 army points",
-    lore: "Sixteenth-century Central European Warbands bringing gunpowder, lute music, scheming politics and grubby idolatry.",
+    lore: "Broadly sixteenth-century Central European warbands who bring gunpowder, lute music, scheming politics and open-fronted shirts. They spread their brand of imperial civilization, and grubby idolatry, to their oppressed and trampled foes.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "War Duke & Advisors", points: 7, options: [], xenos: { "brutal": true } },
       { typeId: "heavy-foot", label: "Landsknechts with Big Swords", points: 6, options: ["offensive"], xenos: {} },
@@ -264,7 +264,7 @@ const CH9 = [
       { typeId: "ravenous-hordes", label: "Plague-Ridden Hordes", points: 3, options: [], xenos: { "repellent": true } },
     ] },
   { n: "sand-marauders", name: "Sand Marauders", subtitle: "30 army points",
-    lore: "A lightweight but mobile Warband favouring skirmish tactics and mounted archery, riding anything from horses to woolly mammoths.",
+    lore: "A lightweight but mobile warband of rumoured magical origin, favouring skirmish tactics and mounted archery. Their riders need not be human nor their mounts horses; wasteland orcs, debased centaurs and beastmen on lizards, mammoths or beetles all fit.",
     units: [
       { typeId: "elite-riders", isCmd: true, label: "Khan & Companions", points: 6, options: [], xenos: {} },
       { typeId: "heavy-riders", label: "Shamans", points: 6, options: [], xenos: { "spellcaster": 1 }, colours: ["Turquoise", "Saffron"] },
@@ -275,7 +275,7 @@ const CH9 = [
       { typeId: "ravenous-hordes", label: "Slaves of the Khan", points: 2, options: [], xenos: { "large": true } },
     ] },
   { n: "nine-travellers", name: "The Nine Travellers", subtitle: "The rulebook's ready-made nine-model list — 30 army points",
-    lore: "Plucky fellows off on a quest that may take three books to complete: a mighty wizard, a ranger, an elf and dwarf, and four halflings carrying something very precious.",
+    lore: "Plucky companions off on a quest that might take three whole books to finish: a mighty wizard, a ranger, an elf and a dwarf, and four halflings guarding something very precious. A ready-made warband of just nine models.",
     units: [
       { typeId: "heavy-foot", isCmd: true, label: "Mighty Wizard", points: 8, options: [], xenos: { "spellcaster": 3 }, colours: ["Amber", "Emerald", "Indigo", "Magenta"] },
       { typeId: "elite-foot", label: "Ranger & Warrior", points: 8, options: [], xenos: { "fearsome": true } },
@@ -283,7 +283,7 @@ const CH9 = [
       { typeId: "light-foot", label: "Four Halflings", points: 6, options: [], xenos: { "concealment": true } },
     ] },
   { n: "frozen-city", name: "Wizards of the Frozen City", subtitle: "30 army points",
-    lore: "Spell-heavy Warbands of wizards and their hardy followers, venturing into the icy ruins of a long-fallen city.",
+    lore: "Spell-heavy warbands of wizards and their hardy followers, venturing into the icy ruins of a huge fallen city. Field several spellcasters and you will want a way to track who cast what, and a complementary spread of magic colours chosen before battle.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "The Wizard's Party", points: 10, options: [], xenos: { "spellcaster": 3 }, colours: ["Crimson", "Indigo", "Turquoise", "Violet"] },
       { typeId: "elite-foot", label: "Knights", points: 6, options: [], xenos: {} },
@@ -292,7 +292,7 @@ const CH9 = [
       { typeId: "bellicose-foot", label: "Barbarians", points: 4, options: [], xenos: {} },
     ] },
   { n: "woodland", name: "Woodland Folk", subtitle: "30 army points",
-    lore: "War hedgehogs, badger lords and mouse warriors take up arms and don armour to see off evil-doing intruders.",
+    lore: "War hedgehogs, badger lords and mouse warriors take up arms and don armour against evil-doing intruders, or to rise to prominence among their own kind. Fear the badger lords, and never overlook the sparrows and magpies raining down from the hedgerows.",
     units: [
       { typeId: "elite-foot", isCmd: true, label: "Badger Lords & Man-Elephants", points: 9, options: [], xenos: { "bloodthirsty": true } },
       { typeId: "light-foot", label: "The Holy Stoat & Followers", points: 7, options: ["offensive"], xenos: { "spellcaster": 1 }, colours: ["Emerald", "Jade"] },
@@ -304,7 +304,7 @@ const CH9 = [
 
 /* attach the rulebook artwork (kept in gitignored public/warbands/, so it shows in
    local dev but is never shipped) to the archetypes that have a matching image. */
-const IMAGED = new Set(["picts", "centaurs", "dwarves", "elves", "faerie", "gnomes", "goblins", "graveyard", "cave-people", "shining-citadel", "lizard-kin", "men-north", "men-west", "orcs", "rat-kin", "renaissance", "sand-marauders", "nine-travellers", "frozen-city", "woodland"]);
+const IMAGED = new Set(["picts", "bronze-age", "centaurs", "dwarves", "elves", "faerie", "gnomes", "goblins", "graveyard", "cave-people", "shining-citadel", "lizard-kin", "men-north", "men-west", "orcs", "rat-kin", "renaissance", "sand-marauders", "nine-travellers", "frozen-city", "woodland"]);
 CH9.forEach((w) => { if (IMAGED.has(w.n)) w.image = `warbands/${w.n}.jpg`; });
 
 /* ---------------- RUNEWARS: THE MINIATURES GAME (core set) ---------------- */
