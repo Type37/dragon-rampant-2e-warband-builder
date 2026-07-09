@@ -7,6 +7,7 @@ import icFire from "@iconify-icons/ph/fire-fill";
 import icShield from "@iconify-icons/ph/shield-fill";
 import icArmour from "@iconify-icons/ph/shield-checkered-fill";
 import icHeart from "@iconify-icons/ph/heart-fill";
+
 import icInfantry from "@iconify-icons/ph/users-three-fill";
 import icAlien from "@iconify-icons/game-icons/alien-bug";
 import icTruck from "@iconify-icons/game-icons/apc";
@@ -15,12 +16,10 @@ import giCrossedSwords from "@iconify-icons/game-icons/crossed-swords";
 import giSpartan from "@iconify-icons/game-icons/spartan-helmet";
 /* fantasy stat icons (Game-Icons), replacing the sci-fi stat PNGs */
 import giBroadsword from "@iconify-icons/game-icons/broadsword";
-import giBoots from "@iconify-icons/game-icons/boots";
 import giBowArrow from "@iconify-icons/game-icons/bow-arrow";
 import giFlyingFlag from "@iconify-icons/game-icons/flying-flag";
 import giShieldStat from "@iconify-icons/game-icons/shield";
 import giBreastplate from "@iconify-icons/game-icons/breastplate";
-import giHearts from "@iconify-icons/game-icons/hearts";
 import giEagle from "@iconify-icons/game-icons/eagle-emblem";
 import giCheckedShield from "@iconify-icons/game-icons/checked-shield";
 import giSpikedShield from "@iconify-icons/game-icons/spiked-shield";
@@ -180,12 +179,9 @@ const Sword = mk(icSword), Move = mk(icMove), Shoot = mk(icShoot), Fire = mk(icF
 const icBodyArmor = { width: 24, height: 24, body: "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"><path d=\"m13.504 2.638l-.252.207c-.6.495-.9.743-1.252.743s-.652-.248-1.252-.743l-.252-.207c-.487-.401-.73-.602-1.021-.634c-.292-.031-.57.112-1.128.4l-.303.155c-.277.143-.416.215-.491.36s-.058.284-.023.562c.276 2.222 1.961 4.316 4.08 4.945A1.2 1.2 0 0 0 12 8.5a1.2 1.2 0 0 0 .39-.074c2.119-.629 3.804-2.723 4.08-4.945c.035-.278.052-.417-.023-.562s-.214-.217-.49-.36l-.304-.156c-.557-.287-.836-.43-1.128-.399c-.291.032-.534.233-1.02.634\"/><path d=\"M7.478 4c-2.086.407-3.482 1.15-4.759 2.23c-.373.315-.56.473-.648.724c-.29.826.344 3.667 1.126 3.995c.487.204 1.168-.214 2.531-1.05C6.965 9.14 8.483 8.355 10 7.932M16.522 4c2.086.407 3.482 1.15 4.759 2.23c.373.315.56.473.648.724c.29.826-.344 3.667-1.126 3.995c-.487.204-1.168-.214-2.532-1.05C17.036 9.14 15.518 8.355 14 7.932M18 10l-.605 5.442c-.188 1.692-.282 2.538-.851 3.048c-.57.51-1.421.51-3.124.51h-2.84c-1.703 0-2.554 0-3.124-.51s-.663-1.356-.851-3.048L6 10\"/><path d=\"M15.385 19h-6.77c-.255 0-.382 0-.503.014a2.06 2.06 0 0 0-1.162.533c-.089.081-.17.177-.333.368c-.32.376-.481.564-.54.707a.995.995 0 0 0 .637 1.331c.15.047.401.047.902.047h8.768c.5 0 .751 0 .902-.047a.994.994 0 0 0 .638-1.33c-.06-.144-.22-.332-.54-.708c-.164-.191-.245-.287-.334-.368a2.07 2.07 0 0 0-1.162-.533C15.767 19 15.64 19 15.385 19\"/></g>" };
 const icSwordAttack = { width: 24, height: 24, body: "<g transform=\"translate(24,0) scale(-1,1)\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M6.675 1.371H1.372v5.303L12.47 17.773l5.303-5.304zm14.81 12.336l-2.475 2.475l3.99 3.99V23h-2.83l-3.99-3.99l-2.474 2.475l-1.414-1.414l7.778-7.778z\" clip-rule=\"evenodd\"/></g>" };
 const icBowArrowT = { width: 15, height: 15, body: "<g transform=\"translate(15,0) scale(-1,1)\"><path fill=\"currentColor\" d=\"m1 1l5 1l-2.21.73L5 3.94c2.38-1.97 5.54-2.21 9.34-.78c.52.19.78.77.59 1.28c-.18.49-.7.75-1.2.62l-3.8 3.81l1.22 1.22L12 10l2.94 2.54l-2 .4l-.4 2L10 12l.09-.85l-1.22-1.22l-3.81 3.8v.02c.12.49-.14 1-.62 1.18a.996.996 0 0 1-1.28-.59c-1.43-3.8-1.19-6.96.78-9.34l-1.2-1.2L2 6zm3.7 11.68l3.46-3.46l-2.8-2.8C4.15 8 3.91 10.05 4.7 12.68m1.72-7.32l2.8 2.8l3.46-3.46c-2.63-.79-4.68-.55-6.26.66\"/></g>" };
-const icHeartBroken = { width: 24, height: 24, body: "<path fill=\"currentColor\" d=\"M16.5 3c-.96 0-1.9.25-2.73.69L12 9h3l-3 10l1-9h-3l1.54-5.39C10.47 3.61 9.01 3 7.5 3C4.42 3 2 5.42 2 8.5c0 4.13 4.16 7.18 10 12.5c5.47-4.94 10-8.26 10-12.5C22 5.42 19.58 3 16.5 3m-6.26 13.73C6.45 13.34 4 11 4 8.5C4 6.54 5.54 5 7.5 5c.59 0 1.19.15 1.73.42L7.35 12h3.42zm4.89-1.2L17.69 7h-2.91l.61-1.82c.36-.12.74-.18 1.11-.18C18.46 5 20 6.54 20 8.5c0 2.21-2.02 4.43-4.87 7.03\"/>" };
-/* Move: a running figure with motion lines reads as movement far better than a boot */
-const icRunFast = { width: 24, height: 24, body: "<path fill=\"currentColor\" d=\"M16.5 5.5a2 2 0 0 0 2-2a2 2 0 0 0-2-2a2 2 0 0 0-2 2a2 2 0 0 0 2 2m-3.6 13.9l1-4.4l2.1 2v6h2v-7.5l-2.1-2l.6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1c-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7l-1.6 8.1l-4.9-1l-.4 2zM4 9a1 1 0 0 1-1-1a1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1a1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1a1 1 0 0 1 1-1h4v2z\"/>" };
-const StatAttack = mk(icSwordAttack), StatMove = mk(icRunFast), StatShoot = mk(icBowArrowT),
+const StatAttack = mk(icSwordAttack), StatMove = Move, StatShoot = mk(icBowArrowT),
   StatCourage = mk(giFlyingFlag), StatDefence = mk(giShieldStat), StatArmour = mk(icBodyArmor),
-  StatStrength = mk(icHeartBroken);
+  StatStrength = Heart;
 
 /* badge/emblem choices offered when starting a detachment; id is stored on the list.
    all monochrome, drawn in the ink colour, and shuffled for the picker below. */
@@ -1269,7 +1265,7 @@ function Dashboard({ lists, onOpen, onCreate, onLoadPreset, onDup, onDel }) {
 /* ================================================================== *
  * BUILDER: compact rows + detail panel
  * ================================================================== */
-const UnitRow = React.memo(function UnitRow({ u, i, count, selected, dispatch }) {
+const UnitRow = React.memo(function UnitRow({ u, i, selected, dispatch, dragging, rowStyle, onDragDown, onDragMove, onDragUp, onDragCancel }) {
   const t = UNIT_BY_ID[u.typeId];
   const pts = unitPoints(u);
   const taken = [
@@ -1277,8 +1273,16 @@ const UnitRow = React.memo(function UnitRow({ u, i, count, selected, dispatch })
     ...XENO_RULES.filter((x) => x.id in u.xenos).map((x) => xenoLabel(x, u)),
   ];
   return (
-    <div className="xr-urow-wrap">
-      <button className={`xr-urow cat-${catOf(t)} ${selected ? "sel" : ""}`} onClick={() => nav(selected ? "#/build" : `#/build/${u.key}`)} aria-expanded={selected}>
+    <div className={`xr-urow-wrap ${dragging ? "dragging" : ""}`} style={rowStyle}>
+      <button className={`xr-urow cat-${catOf(t)} ${selected ? "sel" : ""}`}
+        data-key={u.key} data-index={i}
+        onPointerDown={onDragDown} onPointerMove={onDragMove} onPointerUp={onDragUp} onPointerCancel={onDragCancel}
+        onClick={() => nav(selected ? "#/build" : `#/build/${u.key}`)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowUp") { e.preventDefault(); dispatch({ type: "move", key: u.key, delta: -1 }); }
+          if (e.key === "ArrowDown") { e.preventDefault(); dispatch({ type: "move", key: u.key, delta: 1 }); }
+        }}
+        aria-expanded={selected}>
         {u.image
           ? <span className="xr-urow-img" style={{ backgroundImage: `url(${u.image})` }} aria-hidden="true" />
           : <span className="xr-urow-ic" aria-hidden="true"><UnitIcon id={u.typeId} size={22} /></span>}
@@ -1294,8 +1298,6 @@ const UnitRow = React.memo(function UnitRow({ u, i, count, selected, dispatch })
         </span>
       </button>
       <div className="xr-urow-tools">
-        <button className="xr-urow-mv" disabled={i === 0} onClick={() => dispatch({ type: "move", key: u.key, delta: -1 })} title="Move up" aria-label="Move unit up"><Caret className="xr-mv-up" size={15} /></button>
-        <button className="xr-urow-mv" disabled={i === count - 1} onClick={() => dispatch({ type: "move", key: u.key, delta: 1 })} title="Move down" aria-label="Move unit down"><Caret className="xr-mv-dn" size={15} /></button>
         <button onClick={() => dispatch({ type: "dup", key: u.key })} title="Duplicate this unit" aria-label="Duplicate this unit"><CopyIc size={16} /></button>
         <button className="danger" onClick={() => { dispatch({ type: "del", key: u.key }); if (selected) nav("#/build"); }} title="Remove this unit" aria-label="Remove this unit"><Trash size={16} /></button>
       </div>
@@ -1940,6 +1942,37 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
   const [shared, setShared] = useState(false);
   const [emblemOpen, setEmblemOpen] = useState(false);
   const emblemFileRef = useRef(null);
+  /* drag-to-reorder: rows shift live via CSS transform while dragging, and the
+     actual roster order is only committed once, on pointer-up. */
+  const [drag, setDrag] = useState(null); // { key, index, startY, y, rowH, pointerId, moved }
+  const dragTarget = drag && drag.moved ? Math.max(0, Math.min(roster.length - 1, drag.index + Math.round((drag.y - drag.startY) / drag.rowH))) : null;
+  const beginDrag = useCallback((e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    const btn = e.currentTarget;
+    const wrap = btn.closest(".xr-urow-wrap");
+    if (!wrap) return;
+    btn.setPointerCapture(e.pointerId);
+    setDrag({ key: btn.dataset.key, index: Number(btn.dataset.index), startY: e.clientY, y: e.clientY, rowH: wrap.offsetHeight, pointerId: e.pointerId, moved: false });
+  }, []);
+  const moveDrag = useCallback((e) => {
+    setDrag((d) => {
+      if (!d || e.pointerId !== d.pointerId) return d;
+      const moved = d.moved || Math.abs(e.clientY - d.startY) > 4;
+      return { ...d, y: e.clientY, moved };
+    });
+  }, []);
+  const finishDrag = useCallback((e) => {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    if (drag.moved) {
+      e.preventDefault();
+      const toIndex = Math.max(0, Math.min(roster.length - 1, drag.index + Math.round((drag.y - drag.startY) / drag.rowH)));
+      if (toIndex !== drag.index) dispatch({ type: "reorder", key: drag.key, toIndex });
+    }
+    setDrag(null);
+  }, [drag, roster.length, dispatch]);
+  const cancelDrag = useCallback((e) => {
+    setDrag((d) => (d && e.pointerId === d.pointerId) ? null : d);
+  }, []);
   const { issues, used, count } = useMemo(() => validate(roster, budget, list.freeplay), [roster, budget, list.freeplay]);
   const errors = issues.filter((i) => i.lvl === "err");
   const status = errors.length ? "err" : count === 0 ? "empty" : "ok";
@@ -2045,9 +2078,21 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
                 </div>
               )}
               <div className="xr-ulist-rows">
-                {roster.map((u, i) => (
-                  <UnitRow key={u.key} u={u} i={i} count={roster.length} selected={u.key === selectedKey} dispatch={dispatch} />
-                ))}
+                {roster.map((u, i) => {
+                  const isDragged = drag && drag.moved && u.key === drag.key;
+                  let rowStyle;
+                  if (isDragged) {
+                    rowStyle = { transform: `translateY(${drag.y - drag.startY}px)` };
+                  } else if (drag && drag.moved) {
+                    if (drag.index < dragTarget && i > drag.index && i <= dragTarget) rowStyle = { transform: `translateY(${-drag.rowH}px)` };
+                    else if (drag.index > dragTarget && i >= dragTarget && i < drag.index) rowStyle = { transform: `translateY(${drag.rowH}px)` };
+                  }
+                  return (
+                    <UnitRow key={u.key} u={u} i={i} selected={u.key === selectedKey} dispatch={dispatch}
+                      dragging={isDragged} rowStyle={rowStyle}
+                      onDragDown={beginDrag} onDragMove={moveDrag} onDragUp={finishDrag} onDragCancel={cancelDrag} />
+                  );
+                })}
               </div>
               <button className="xr-add-sticky" onClick={() => setAdding(true)}><Plus size={20} /> Add unit</button>
             </>
@@ -2354,6 +2399,16 @@ export default function App() {
           if (i < 0 || j < 0 || j >= r.length) return r;
           const next = [...r];
           [next[i], next[j]] = [next[j], next[i]];
+          return next;
+        });
+        break;
+      case "reorder":
+        setRoster((r) => {
+          const from = r.findIndex((u) => u.key === a.key);
+          if (from < 0 || from === a.toIndex) return r;
+          const next = [...r];
+          const [moved] = next.splice(from, 1);
+          next.splice(a.toIndex, 0, moved);
           return next;
         });
         break;
@@ -2804,7 +2859,7 @@ const CSS = `
 .xr-detoverview-hint{display:flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--flavor);font-style:italic;font-size:15px;color:var(--ink-2);}
 
 /* compact unit rows */
-.xr-urow{display:flex;flex-direction:row;align-items:center;gap:10px;text-align:left;border:2px solid var(--ink);border-left-width:6px;border-radius:9px;background:var(--paper-2);padding:7px 12px;transition:transform .13s cubic-bezier(.2,.8,.2,1),background .13s,box-shadow .13s;}
+.xr-urow{display:flex;flex-direction:row;align-items:center;gap:10px;text-align:left;border:2px solid var(--ink);border-left-width:6px;border-radius:9px;background:var(--paper-2);padding:7px 12px;transition:transform .13s cubic-bezier(.2,.8,.2,1),background .13s,box-shadow .13s;touch-action:none;-webkit-user-select:none;user-select:none;}
 .xr-urow-body{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;}
 .xr-urow-img{flex:none;width:40px;height:40px;border-radius:7px;border:2px solid var(--ink);background-size:contain;background-repeat:no-repeat;background-position:center;background-color:var(--paper-3);}
 .xr-urow-ic{flex:none;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:7px;border:2px solid var(--ink);background:var(--cream);color:var(--ink);}
@@ -2826,18 +2881,21 @@ const CSS = `
 .xr-urow-pts i{font-style:normal;font-size:12px;color:var(--ink-2);margin-left:3px;}
 .xr-urow-sub{font-family:var(--ui);font-weight:500;font-size:12.5px;color:var(--ink-2);line-height:1.35;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;}
 .xr-urow-sub em{font-style:italic;}
-/* duplicate/delete live on the left unit card, in a reserved right gutter */
-.xr-urow-wrap{position:relative;}
-.xr-urow-wrap>.xr-urow{width:100%;padding-right:64px;}
-/* tools sit in the reserved right gutter as a compact 2x2 grid:
-   reorder (up/down) on top, duplicate/delete beneath */
-.xr-urow-tools{position:absolute;top:0;bottom:0;right:6px;width:52px;display:flex;flex-wrap:wrap;align-content:center;justify-content:flex-end;gap:4px;}
+/* duplicate/delete live on the unit card in a reserved right gutter.
+   dragging is instant (no transition, tracks the pointer 1:1); other rows
+   glide out of the way with a short transition to open a gap. */
+.xr-urow-wrap{position:relative;transition:transform 150ms ease;}
+.xr-urow-wrap.dragging{transition:none;z-index:20;}
+.xr-urow-wrap>.xr-urow{width:100%;padding-right:64px;cursor:grab;}
+.xr-urow-wrap.dragging>.xr-urow{cursor:grabbing;transform:none;}
+/* tools: duplicate and delete, sitting in the reserved right gutter */
+.xr-urow-tools{position:absolute;top:0;bottom:0;right:6px;width:52px;display:flex;align-items:center;justify-content:flex-end;gap:4px;}
 .xr-urow-tools button{width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:6px;border:2px solid var(--ink-30);background:var(--paper);color:var(--ink-2);box-shadow:var(--shadow4);transition:border-color .12s,color .12s,background .12s,opacity .12s;}
 .xr-urow-tools button:hover{border-color:var(--ink);color:var(--ink);background:var(--paper-3);}
 .xr-urow-tools button.danger:hover{border-color:var(--coral-ink);color:var(--coral-ink);background:#A72C3114;}
 .xr-urow-tools button:disabled{opacity:.32;cursor:default;box-shadow:none;}
 .xr-urow-tools button:disabled:hover{border-color:var(--ink-30);color:var(--ink-2);background:var(--paper);}
-.xr-mv-up{transform:rotate(180deg);}
+
 /* the "file by" ordering toolbar above the roster rows */
 .xr-ulist-file{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:2px 2px 4px;}
 .xr-file-l{font-family:var(--ui);font-weight:700;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);}
