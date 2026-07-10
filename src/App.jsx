@@ -561,6 +561,63 @@ function parseHash() {
 }
 const nav = (h) => { window.location.hash = h; };
 
+/* ---- transient toast notifications ----
+   fire from anywhere with toast("Copied", "ok"); a single <Toaster/> mounted in
+   the app shell listens on the window and renders an aria-live stack. tones:
+   "ok" (green check), "err" (coral warn), "info" (link). */
+let _toastSeq = 0;
+const toast = (msg, tone = "ok", action = null) => {
+  window.dispatchEvent(new CustomEvent("xr-toast", { detail: { id: ++_toastSeq, msg, tone, action } }));
+};
+/* copy text with a toast. tries the async clipboard first, then falls back to a
+   hidden-textarea execCommand for older mobile Safari or when the API is blocked */
+function legacyCopy(text) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.top = "0"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  } catch { return false; }
+}
+async function copyText(text, okMsg, errMsg = "Could not copy") {
+  try {
+    if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+    else if (!legacyCopy(text)) throw new Error("copy failed");
+    if (okMsg) toast(okMsg, "ok");
+    return true;
+  } catch {
+    if (legacyCopy(text)) { if (okMsg) toast(okMsg, "ok"); return true; }
+    if (errMsg) toast(errMsg, "err");
+    return false;
+  }
+}
+function Toaster() {
+  const [items, setItems] = useState([]);
+  const dismiss = (id) => setItems((xs) => xs.filter((x) => x.id !== id));
+  useEffect(() => {
+    const onToast = (e) => {
+      const t = e.detail;
+      setItems((xs) => [...xs.slice(-3), t]);
+      window.setTimeout(() => setItems((xs) => xs.filter((x) => x.id !== t.id)), t.action ? 5200 : 2800);
+    };
+    window.addEventListener("xr-toast", onToast);
+    return () => window.removeEventListener("xr-toast", onToast);
+  }, []);
+  return (
+    <div className="xr-toaster" role="status" aria-live="polite" aria-atomic="false">
+      {items.map((t) => (
+        <div key={t.id} className={`xr-toast tone-${t.tone}`}>
+          {t.tone === "err" ? <Warn size={18} /> : t.tone === "info" ? <LinkIc size={18} /> : <Check size={18} />}
+          <span>{t.msg}</span>
+          {t.action && <button className="xr-toast-act" onClick={() => { t.action.fn(); dismiss(t.id); }}>{t.action.label}</button>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* read an image file, downscale it to fit maxPx, hand back a compact JPEG data URL.
    keeps localStorage small: full-res photos would blow the quota. */
 function drawDownscaled(source, w, h, cb) {
@@ -1200,7 +1257,7 @@ function Dashboard({ lists, onOpen, onCreate, onLoadPreset, onDup, onDel }) {
           {l.description && <span className="xr-list-desc">{l.description}</span>}
         </button>
         <div className="xr-list-tools">
-          <button onClick={() => onDup(l.id)} aria-label="Duplicate" title="Duplicate"><CopyIc size={19} /></button>
+          <button onClick={() => { onDup(l.id); toast("Warband duplicated"); }} aria-label="Duplicate" title="Duplicate"><CopyIc size={19} /></button>
           <button onClick={() => onDel(l.id)} aria-label="Delete" title="Delete"><Trash size={19} /></button>
         </div>
       </div>
@@ -1298,8 +1355,8 @@ const UnitRow = React.memo(function UnitRow({ u, i, selected, dispatch, dragging
         </span>
       </button>
       <div className="xr-urow-tools">
-        <button onClick={() => dispatch({ type: "dup", key: u.key })} title="Duplicate this unit" aria-label="Duplicate this unit"><CopyIc size={16} /></button>
-        <button className="danger" onClick={() => { dispatch({ type: "del", key: u.key }); if (selected) nav("#/build"); }} title="Remove this unit" aria-label="Remove this unit"><Trash size={16} /></button>
+        <button onClick={() => { dispatch({ type: "dup", key: u.key }); toast("Unit duplicated"); }} title="Duplicate this unit" aria-label="Duplicate this unit"><CopyIc size={16} /></button>
+        <button className="danger" onClick={() => { const removed = u, at = i; dispatch({ type: "del", key: u.key }); if (selected) nav("#/build"); toast(`${unitDisplayName(removed, at)} removed`, "ok", { label: "Undo", fn: () => dispatch({ type: "insertAt", unit: removed, index: at }) }); }} title="Remove this unit" aria-label="Remove this unit"><Trash size={16} /></button>
       </div>
     </div>
   );
@@ -1939,7 +1996,8 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
   const [issuesOpen, setIssuesOpen] = useState(false);
   const [abilOpen, setAbilOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [shared, setShared] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [shorting, setShorting] = useState(false);
   const [emblemOpen, setEmblemOpen] = useState(false);
   const emblemFileRef = useRef(null);
   /* drag-to-reorder: rows shift live via CSS transform while dragging, and the
@@ -1991,14 +2049,33 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
       (u.colours || []).forEach((n) => lines.push(`- Colour of magic: ${n}`));
       (u.custom || []).forEach((c) => lines.push(`- ${c.name} (${costLabel(c.cost)})`));
     });
-    navigator.clipboard?.writeText(lines.join("\n"));
+    copyText(lines.join("\n"), "Roster copied as text", "Could not copy the roster");
   };
 
+  const shareUrl = () => `${window.location.origin}${window.location.pathname}#/s/${encodeShare(list)}`;
   const shareLink = () => {
-    const url = `${window.location.origin}${window.location.pathname}#/s/${encodeShare(list)}`;
-    navigator.clipboard?.writeText(url);
-    setShared(true);
-    window.setTimeout(() => setShared(false), 2200);
+    copyText(shareUrl(), "Share link copied. It rebuilds this warband in any browser.", "Could not copy the link");
+    setShareOpen(false);
+  };
+  const shortLink = async () => {
+    const url = shareUrl();
+    setShorting(true);
+    let short = null;
+    try {
+      const res = await fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(url));
+      const body = (await res.text()).trim();
+      if (res.ok && /^https?:\/\//.test(body)) short = body;
+    } catch { /* offline or blocked: fall back to the full link below */ }
+    setShorting(false);
+    if (short) {
+      const bare = short.replace(/^https?:\/\//, "");
+      const ok = await copyText(short, "Short link copied: " + bare, null);
+      if (!ok) toast("Short link: " + bare, "info");
+      setShareOpen(false);
+    } else {
+      const ok = await copyText(url, "Shortener unavailable. Copied the full link instead.", null);
+      if (!ok) toast("Could not reach the shortener. Use Copy link instead.", "err");
+    }
   };
 
   return (
@@ -2015,20 +2092,50 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
             onChange={(e) => { const f = e.target.files && e.target.files[0]; if (f) downscaleImage(f, 256, (d) => { if (d) updateList({ image: d, icon: undefined }); }); e.target.value = ""; }} />
           <input className="xr-detname" value={list.name} placeholder="Name your warband"
             onChange={(e) => updateList({ name: e.target.value })} spellCheck={false} />
-          <button className={`xr-mastpts ${over ? "over" : pct >= 90 ? "near" : ""}`} onClick={() => setIssuesOpen((o) => !o)} title="Points and status">
-            <b>{used}</b><span>/{budget}</span>
-            {status === "ok" && <em className="xr-mastpts-s ok"><Check size={13} />{count}</em>}
-            {status === "err" && <em className="xr-mastpts-s err"><Warn size={13} />{errors.length}</em>}
-          </button>
-          <div className="xr-actions">
-            <button className="xr-btn small" onClick={copyList} title="Copy the roster to the clipboard as text"><CopyIc size={17} /> Copy</button>
-            <button className={`xr-btn small ${shared ? "gold" : ""}`} onClick={shareLink} title="Copy a link that rebuilds this warband (pictures are not included)">
-              {shared ? <><Check size={17} /> Link copied</> : <><LinkIc size={17} /> Share</>}
+          <div className="xr-mastptswrap">
+            <button className={`xr-mastpts ${over ? "over" : pct >= 90 ? "near" : ""}`} onClick={() => setIssuesOpen((o) => !o)}
+              aria-expanded={issuesOpen} title="Points and status">
+              <b>{used}</b><span>/{budget}</span>
+              {status === "ok" && <em className="xr-mastpts-s ok"><Check size={13} />{count}</em>}
+              {status === "err" && <em className="xr-mastpts-s err"><Warn size={13} />{errors.length}</em>}
             </button>
-            <button className="xr-btn small" onClick={() => nav("#/print")} title="Open the print sheet"><Printer size={17} /> Print</button>
+            {issuesOpen && (
+              <>
+                <button className="xr-settings-scrim" aria-label="Close" onClick={() => setIssuesOpen(false)} />
+                <div className="xr-issue-pop xr-mastpop open" role="region" aria-label="Warband status">
+                  {issues.length > 0 ? (
+                    <>
+                      <span className="xr-mastpop-h"><Warn size={15} /> {issues.length} {issues.length === 1 ? "issue" : "issues"} to fix</span>
+                      {issues.map((it, i) => <span key={i} className={`xr-issue ${it.lvl}`}>{it.msg}</span>)}
+                    </>
+                  ) : (
+                    <span className="xr-mastpop-ok"><Check size={15} /> Looks good. {count} {count === 1 ? "unit" : "units"}, {used}/{budget} points.</span>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+          <div className="xr-actions">
+            <button className="xr-btn small xr-act" onClick={copyList} title="Copy the roster to the clipboard as plain text" aria-label="Copy roster as text"><CopyIc size={17} /><span>Copy</span></button>
+            <div className="xr-sharewrap">
+              <button className="xr-btn small xr-act" onClick={() => setShareOpen((o) => !o)}
+                title="Share this warband as a link" aria-label="Share link" aria-expanded={shareOpen}><LinkIc size={17} /><span>Share</span></button>
+              {shareOpen && (
+                <>
+                  <button className="xr-settings-scrim" aria-label="Close share menu" onClick={() => setShareOpen(false)} />
+                  <div className="xr-settings-pop xr-share-pop" role="dialog" aria-label="Share this warband">
+                    <p className="xr-share-note">A share link rebuilds this whole warband in anyone's browser. Everything travels inside the link, so it keeps working offline. Pictures are left out to keep it short.</p>
+                    <button className="xr-btn small block" onClick={shareLink}><LinkIc size={16} /> Copy link</button>
+                    <button className="xr-btn small block" onClick={shortLink} disabled={shorting}><Bolt size={16} /> {shorting ? "Shortening…" : "Copy short link"}</button>
+                    <p className="xr-share-sub">The short link sends your link to TinyURL to shrink it, so it needs a connection. The plain link always works.</p>
+                  </div>
+                </>
+              )}
+            </div>
+            <button className="xr-btn small xr-act" onClick={() => nav("#/print")} title="Open the print sheet" aria-label="Print sheet"><Printer size={17} /><span>Print</span></button>
             <div className="xr-settingswrap">
-              <button className={`xr-btn small ${list.freeplay ? "gold" : ""}`} onClick={() => setSettingsOpen((o) => !o)}
-                title="Warband settings" aria-expanded={settingsOpen}><Gear size={17} /> Settings</button>
+              <button className={`xr-btn small xr-act ${list.freeplay ? "gold" : ""}`} onClick={() => setSettingsOpen((o) => !o)}
+                title="Warband settings" aria-label="Warband settings" aria-expanded={settingsOpen}><Gear size={17} /><span>Settings</span></button>
               {settingsOpen && (
                 <>
                   <button className="xr-settings-scrim" aria-label="Close settings" onClick={() => setSettingsOpen(false)} />
@@ -2122,7 +2229,7 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
         </div>
       </div>
 
-      {adding && <AddUnitModal onAdd={(id) => { dispatch({ type: "add", typeId: id }); setAdding(false); }} onClose={() => setAdding(false)} />}
+      {adding && <AddUnitModal onAdd={(id) => { dispatch({ type: "add", typeId: id }); setAdding(false); toast(`${UNIT_BY_ID[id]?.name || "Unit"} added`); }} onClose={() => setAdding(false)} />}
       {abilOpen && sel && <AbilitiesModal u={sel} dispatch={dispatch} onClose={() => setAbilOpen(false)} />}
       {emblemOpen && <IconPickerModal onPick={(id) => { updateList({ icon: id, image: undefined }); setEmblemOpen(false); }} onUpload={() => { setEmblemOpen(false); emblemFileRef.current && emblemFileRef.current.click(); }} onClose={() => setEmblemOpen(false)} />}
 
@@ -2139,6 +2246,23 @@ function PrintView({ list }) {
   const [opts, setOpts] = useState({ stats: true, upgrades: true, rules: true, spells: true, contrast: false, large: false });
   const { used, count } = useMemo(() => validate(roster, budget, list.freeplay), [roster, budget, list.freeplay]);
   const tog = (k) => setOpts((o) => ({ ...o, [k]: !o[k] }));
+
+  const refRules = useMemo(() => {
+    if (!opts.rules) return { shared: new Set(), list: [] };
+    const cnt = new Map(), body = new Map();
+    roster.forEach((u) => {
+      const t = UNIT_BY_ID[u.typeId];
+      unitSpecialRules(u, t).forEach((n) => {
+        const text = SPECIAL_RULES[n];
+        if (!text) return;
+        cnt.set(n, (cnt.get(n) || 0) + 1);
+        if (!body.has(n)) body.set(n, typeof text === "string" ? text : ruleBodyText(text));
+      });
+    });
+    const shared = new Set([...cnt].filter(([, c]) => c >= 2).map(([n]) => n));
+    const list = [...shared].sort((a, b) => a.localeCompare(b)).map((n) => ({ name: n, text: body.get(n) }));
+    return { shared, list };
+  }, [roster, opts.rules]);
 
   return (
     <div className={`xr-printview ${opts.contrast ? "contrast" : ""} ${opts.large ? "large" : ""}`}>
@@ -2179,6 +2303,8 @@ function PrintView({ list }) {
               const cs = u.custom || [];
               const colours = opts.spells ? (u.colours || []).map((n) => SPELL_COLOURS.find((pp) => pp.name === n)).filter(Boolean) : [];
               const stdRules = opts.rules ? unitSpecialRules(u, t).map((n) => ({ name: n, text: SPECIAL_RULES[n] })).filter((g) => g.text) : [];
+              const uniqueStd = stdRules.filter((g) => !refRules.shared.has(g.name));
+              const sharedStd = stdRules.filter((g) => refRules.shared.has(g.name));
               const showUp = !!(opts.upgrades && (os.length || xs.length || cs.length));
               const shownNames = new Set([
                 ...(showUp ? [...os.map((o) => o.name), ...xs.map((x) => x.name), ...cs.map((c) => c.name || "")] : []),
@@ -2196,20 +2322,34 @@ function PrintView({ list }) {
                   {opts.stats && (
                     <div className="xr-pc-stt"><StatTable t={t} sp={unitSP(u)} u={u} hint={false} /></div>
                   )}
-                  {(showUp || colours.length > 0 || stdRules.length > 0 || nested.length > 0) && (
+                  {(showUp || colours.length > 0 || uniqueStd.length > 0 || nested.length > 0 || sharedStd.length > 0) && (
                     <div className="xr-pc-rules">
                       {showUp && os.map((o) => <p key={o.id}><b>{o.name}</b> ({costLabel(optCost(o))}): {o.text}</p>)}
                       {showUp && xs.map((x) => <p key={x.id}><b>{xenoLabel(x, u)}</b> ({costLabel(xenoDisplayCost(x, u))}){x.id === "spellcaster" ? "" : <>: {typeof x.text === "string" ? x.text : ruleBodyText(x.text)}</>}</p>)}
                       {showUp && cs.map((c) => <p key={c.id}><b>{c.name}</b> ({costLabel(c.cost)}){c.text ? `: ${c.text}` : ""}</p>)}
                       {colours.map((col) => col.spells.map((s) => <p key={`${col.name}-${s.name}`} className="xr-pc-spell"><b>{col.name} magic, {s.name}</b> ({s.difficulty}): {s.effect}</p>))}
-                      {stdRules.map((g) => <p key={`sr-${g.name}`} className="xr-pc-std"><b>{g.name}.</b> {typeof g.text === "string" ? g.text : ruleBodyText(g.text)}</p>)}
-                      {nested.map((g) => <p key={`nx-${g.name}`} className="xr-pc-std xr-pc-nested"><b>{g.name}.</b> {g.text}</p>)}
+                      {uniqueStd.map((g) => <p key={`sr-${g.name}`} className="xr-pc-std"><b>{g.name}.</b> {typeof g.text === "string" ? g.text : ruleBodyText(g.text)}</p>)}
+                      {nested.filter((g) => !refRules.shared.has(g.name)).map((g) => <p key={`nx-${g.name}`} className="xr-pc-std xr-pc-nested"><b>{g.name}.</b> {g.text}</p>)}
+                      {sharedStd.length > 0 && (
+                        <p className="xr-pc-ref"><b>{sharedStd.map((g) => g.name).join(", ")}</b> <i>see reference</i></p>
+                      )}
                     </div>
                   )}
                   {u.notes && u.notes.trim() && <p className="xr-pc-note">{u.notes.trim()}</p>}
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {refRules.list.length > 0 && (
+          <div className="xr-sheet-ref">
+            <h2 className="xr-sheet-ref-h">Special Rules Reference</h2>
+            <div className="xr-sheet-ref-grid">
+              {refRules.list.map((g) => (
+                <p key={`ref-${g.name}`} className="xr-sheet-ref-item"><b>{g.name}.</b> {g.text}</p>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -2392,6 +2532,7 @@ export default function App() {
         break;
       }
       case "del": setRoster((r) => r.filter((u) => u.key !== a.key)); break;
+      case "insertAt": setRoster((r) => { const next = r.filter((u) => u.key !== a.unit.key); next.splice(Math.min(a.index, next.length), 0, a.unit); return next; }); break;
       case "move":
         setRoster((r) => {
           const i = r.findIndex((u) => u.key === a.key);
@@ -2521,9 +2662,10 @@ export default function App() {
   };
   const delList = (id) => {
     const l = lists[id];
-    if (!window.confirm(`Delete ${l?.name || "this detachment"}? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete ${l?.name || "this warband"}? This cannot be undone.`)) return;
     setLists((ls) => { const next = { ...ls }; delete next[id]; return next; });
     if (currentId === id) setCurrentId(null);
+    toast(`${l?.name || "Warband"} deleted`);
   };
 
   /* guard: build/print/play need a current list */
@@ -2543,6 +2685,7 @@ export default function App() {
         {route.view === "play" && <PlayView list={current} />}
       </ErrorBoundary>
       {rulesOpen && <RulesModal onClose={() => setRulesOpen(false)} />}
+      <Toaster />
     </div>
   );
 }
@@ -2604,6 +2747,13 @@ const CSS = `
 .xr-btn.danger:hover{background:var(--coral);border-color:var(--coral-ink);color:#fff;}
 .xr-btn.small{min-height:42px;padding:8px 13px;font-size:15.5px;}
 .xr-btn.small.icon{padding:8px 10px;}
+/* mast action buttons: icon + label (label shrinks to a tiny caption on mobile) */
+.xr-btn.small.xr-act{gap:6px;}
+.xr-sharewrap{position:relative;}
+.xr-share-pop{width:min(320px,88vw);gap:10px;}
+.xr-share-note{font-family:var(--body);font-size:14px;line-height:1.42;color:var(--ink);margin:0;}
+.xr-share-sub{font-family:var(--body);font-size:12.5px;line-height:1.4;color:var(--ink-2);margin:0;}
+.xr-share-pop .xr-btn{width:100%;justify-content:center;}
 .xr-btn.gold{background:var(--brass);border-color:var(--brass);color:var(--cream);}
 .xr-btn.xr-manage{background:var(--brand-deep);border-color:transparent;color:#fff;box-shadow:var(--shadow4);}
 .xr-btn.xr-manage:hover{background:var(--brand-deep);border-color:transparent;filter:brightness(1.08);}
@@ -2757,6 +2907,13 @@ const CSS = `
 .xr-mastpts-s{display:inline-flex;align-items:center;gap:2px;font-style:normal;font-size:12.5px;margin-left:5px;}
 .xr-mastpts-s.ok{color:var(--sage);}
 .xr-mastpts-s.err{color:var(--coral-ink);}
+/* the whole points-badge wrapper is mobile only; the desktop rail muster owns
+   the status popover, so gating the wrapper here avoids a double popover */
+.xr-mastptswrap{display:none;position:relative;}
+.xr-mastpop{left:auto;right:0;z-index:60;}
+.xr-mastpop-h{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;font-size:15px;color:var(--coral-ink);}
+.xr-mastpop-ok{display:flex;align-items:center;gap:8px;font-family:var(--body);font-weight:600;font-size:15px;color:var(--sage);line-height:1.4;}
+.xr-mastpop-ok svg,.xr-mastpop-h svg{flex:none;}
 .xr-detname::placeholder{color:var(--ink-2);opacity:.7;}
 .xr-detname:focus{outline:none;border-bottom-color:var(--coral);}
 .xr-actions{display:flex;gap:8px;flex-wrap:wrap;}
@@ -3384,11 +3541,24 @@ const CSS = `
 .xr-sheet-unit h3 em{font-weight:400;font-style:italic;font-size:14.5px;}
 .xr-sheet-unit p{font-family:var(--body);font-style:normal;font-size:13.5px;line-height:1.45;margin-bottom:5px;}
 .xr-sheet-unit p b{font-style:normal;}
-.xr-sheet-gloss{margin-top:12px;border-top:2px solid #1a1a1a;padding-top:7px;}
+.xr-sheet-gloss{margin-top:12px;padding-top:7px;}
 .xr-sheet-gloss h2{font-family:var(--display);font-size:18px;margin-bottom:5px;}
 .xr-sheet-gloss p{font-family:var(--body);font-style:normal;font-size:12.5px;line-height:1.4;margin-bottom:4px;}
 .xr-sheet-gloss p b{font-style:normal;}
 .xr-sheet-gloss p i{font-family:var(--flavor);font-style:italic;color:#333;}
+.xr-pc-rules .xr-pc-ref{font-size:11px;line-height:1.3;color:#1a1a1a;margin-top:3px;}
+.xr-pc-rules .xr-pc-ref b{font-weight:700;}
+.xr-pc-rules .xr-pc-ref i{font-family:var(--flavor);font-style:italic;color:#777;}
+.xr-printview.contrast .xr-pc-ref,.xr-printview.contrast .xr-pc-ref i{color:#000;}
+.xr-printview.large .xr-pc-rules .xr-pc-ref{font-size:14px;}
+.xr-sheet-ref{margin-top:12px;padding-top:7px;}
+.xr-sheet-ref-h{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:5px;}
+.xr-sheet-ref-grid{column-count:2;column-gap:24px;}
+.xr-sheet-ref-item{font-family:var(--body);font-size:10.5px;line-height:1.3;margin-bottom:3px;break-inside:avoid;}
+.xr-sheet-ref-item b{font-weight:700;}
+.xr-printview.large .xr-sheet-ref-h{font-size:20px;}
+.xr-printview.large .xr-sheet-ref-item{font-size:14px;}
+@media(max-width:720px){.xr-sheet-ref-grid{column-count:1;}}
 .xr-sheet-foot{margin-top:22px;border-top:1px solid #bbb;padding-top:8px;font-size:12.5px;font-style:italic;color:#555;}
 .xr-printview.large .xr-sheet{font-size:17px;}
 .xr-printview.large .xr-sheet-table td,.xr-printview.large .xr-sheet-table th{font-size:16.5px;padding:8px 7px;}
@@ -3396,6 +3566,20 @@ const CSS = `
 .xr-printview.contrast .xr-sheet{color:#000;}
 .xr-printview.contrast .xr-sheet-table td{border-bottom-color:#000;}
 .xr-printview.contrast .xr-sheet-note,.xr-printview.contrast .xr-sheet-foot{color:#000;}
+
+/* ---------- toasts ---------- */
+.xr-toaster{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;width:max-content;max-width:calc(100vw - 24px);}
+.xr-toast{display:flex;align-items:center;gap:9px;background:var(--ink);color:var(--cream);font-family:var(--body);font-size:15px;font-weight:600;line-height:1.3;padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(36,31,26,.34);animation:xr-toast-in .22s ease-out;max-width:100%;}
+.xr-toast span{overflow-wrap:anywhere;}
+.xr-toast svg{flex:none;}
+.xr-toast-act{pointer-events:auto;flex:none;margin-left:6px;background:transparent;border:1.5px solid var(--cream);color:var(--cream);font-family:var(--body);font-weight:700;font-size:14px;padding:5px 12px;min-height:36px;border-radius:8px;cursor:pointer;transition:background .12s,color .12s;}
+.xr-toast-act:hover{background:var(--cream);color:var(--ink);}
+.xr-toast.tone-ok svg{color:#8FBF7A;}
+.xr-toast.tone-err{background:var(--coral-ink);}
+.xr-toast.tone-err svg{color:#FFE1DA;}
+.xr-toast.tone-info svg{color:#E7B84E;}
+@keyframes xr-toast-in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@media(prefers-reduced-motion:reduce){.xr-toast{animation:none;}}
 
 /* ---------- play ---------- */
 .xr-play{display:flex;flex-direction:column;min-height:100vh;padding-left:76px;}
@@ -3460,10 +3644,14 @@ const CSS = `
 /* ---------- mobile ---------- */
 @media(max-width:880px){
   .xr-build-body{display:block;}
-  /* the dock sticks above the bottom nav bar on mobile, spanning the width */
-  .xr-musterdock{align-self:stretch;bottom:60px;border-radius:0;border-left:none;border-right:none;justify-content:center;}
+  .xr-musterdock{align-self:stretch;border-radius:0;border-left:none;border-right:none;justify-content:center;}
   .xr-ulist{padding-bottom:24px;}
-  .xr-detail{position:fixed;inset:0;z-index:60;background:var(--paper);border-left:none;max-height:none;overflow-y:auto;display:none;}
+  /* explicit height, not just inset:0 - a fixed box whose height is left to
+     resolve from top+bottom can end up sized to its content instead of the
+     viewport once content is tall enough, leaving the overflow unreachable
+     (fixed elements don't scroll with the document, and overflow-y never
+     engages because nothing overflows the box itself) */
+  .xr-detail{position:fixed;inset:0;height:100vh;height:100dvh;z-index:60;background:var(--paper);border-left:none;max-height:none;overflow-y:auto;display:none;}
   .xr-build-body.has-sel .xr-detail{display:block;animation:xr-fade .18s ease;}
   .xr-panel-back{display:flex;}
   .xr-detail-hint{display:none;}
@@ -3472,14 +3660,40 @@ const CSS = `
   .xr-row-text{padding-left:4px;}
   .xr-tiers{padding-left:4px;}
   .xr-subs{margin-left:12px;}
-  .xr-rail{top:auto;bottom:0;left:0;right:0;width:auto;height:60px;flex-direction:row;padding:0 4px;gap:0;justify-content:space-around;border-top:2px solid var(--ink-2);}
+  /* the rail becomes a top bar on mobile; page headers stick just below it
+     instead of at the true viewport top, so the fixed bar never covers them */
+  .xr-rail{top:0;bottom:auto;left:0;right:0;width:auto;height:60px;flex-direction:row;padding:0 4px;gap:0;justify-content:space-around;border-top:none;border-bottom:2px solid var(--ink-2);}
   .xr-rail-logo{display:none;}
   .xr-rail-nav{flex-direction:row;justify-content:space-around;height:100%;align-items:stretch;width:100%;}
   .xr-rail-btn{flex:1;max-width:96px;justify-content:center;border-radius:0;gap:2px;}
-  /* on mobile the rail is a bottom nav bar; the points muster moves to the mast */
+  /* on mobile the rail is a top nav bar; the points muster moves to the mast */
   .xr-railmuster{display:none;}
+  .xr-mastptswrap{display:block;}
   .xr-mastpts{display:inline-flex;}
-  .xr-home,.xr-build,.xr-printview,.xr-play{padding-left:0;padding-bottom:64px;}
+  .xr-home,.xr-build,.xr-printview,.xr-play{padding-left:0;padding-top:60px;padding-bottom:0;}
+  .xr-mast,.xr-print-chrome,.xr-play-mast{top:60px;}
+  /* mast action buttons: icon over a tiny caption so labels stay readable but
+     the icon leads (per the "bring the text back, tiny" ask) */
+  .xr-act{flex-direction:column;gap:2px;padding:5px 8px;min-width:48px;min-height:44px;}
+  .xr-act span{display:block;font-size:9.5px;font-weight:700;line-height:1;letter-spacing:.02em;text-transform:uppercase;}
+  .xr-actions{gap:6px;}
+  /* add-unit picker: a fixed 292px card column was wider than the phone modal,
+     so cards overflowed and the mini stat rows got crushed. One full-width
+     column fixes both and gives the act/stat grids real room */
+  .xr-pick-grid{grid-template-columns:1fr;gap:12px;}
+  .xr-modal-body{padding:14px 14px 20px;}
+  /* the per-unit duplicate/remove buttons were 24px squares, too small to tap
+     reliably on a phone; give them a proper target without dominating the row */
+  .xr-urow-tools{width:82px;gap:7px;right:8px;}
+  .xr-urow-tools button{width:34px;height:40px;}
+  /* play mast was wrapping into a tall stack that ate the screen; keep the title
+     row compact and drop the turn controls onto their own full-width line */
+  .xr-play-mast{gap:8px 10px;padding:10px clamp(12px,3vw,20px);}
+  .xr-play-h{font-size:18px;min-width:0;}
+  .xr-play-turn{font-size:15px;}
+  .xr-play-turn b{font-size:19px;}
+  .xr-play-mast .xr-actions{flex:1 1 100%;margin-left:0;gap:8px;}
+  .xr-play-mast .xr-actions .xr-btn{flex:1;min-height:42px;padding:8px 10px;font-size:15px;}
 }
 
 /* ---------- @media print ---------- */
