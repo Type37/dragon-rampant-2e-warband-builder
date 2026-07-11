@@ -17,10 +17,3 @@ REDESIGN-BRIEF.md
 documents/
 docs-local/
 *.pdf
-
-# Preset artwork extracted from the rulebook (Osprey art + third-party miniature
-# photos). Third-party copyright, so kept local only: shows in dev, never shipped.
-public/warbands/
-*.docx
-*.epub
-*.zip

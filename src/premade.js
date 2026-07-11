@@ -302,8 +302,7 @@ const CH9 = [
     ] },
 ];
 
-/* attach the rulebook artwork (kept in gitignored public/warbands/, so it shows in
-   local dev but is never shipped) to the archetypes that have a matching image. */
+/* attach the rulebook artwork to the archetypes that have a matching image. */
 const IMAGED = new Set(["picts", "bronze-age", "centaurs", "dwarves", "elves", "faerie", "gnomes", "goblins", "graveyard", "cave-people", "shining-citadel", "lizard-kin", "men-north", "men-west", "orcs", "rat-kin", "renaissance", "sand-marauders", "nine-travellers", "frozen-city", "woodland"]);
 CH9.forEach((w) => { if (IMAGED.has(w.n)) w.image = `warbands/${w.n}.jpg`; });
 
