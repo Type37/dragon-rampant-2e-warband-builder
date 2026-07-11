@@ -972,9 +972,8 @@ function BudgetPicker({ budget, onChange }) {
   );
 }
 
-/* true once an image URL has successfully loaded; false while loading or if it
-   errors (eg. a preset's rulebook art that only exists in local dev). data: URIs
-   from uploads resolve instantly, so this only ever fails for missing files. */
+/* true once an image URL has successfully loaded; false while loading or on error.
+   data: URIs from uploads resolve instantly; this only ever fails for missing files. */
 function useImageOk(src) {
   const [ok, setOk] = useState(false);
   useEffect(() => {
@@ -999,8 +998,7 @@ function DetachIcon({ list, size = 26, className }) {
   return <span className={`${className || ""} xr-dicon-glyph`} aria-hidden="true"><Ico size={size} /></span>;
 }
 
-/* preset-card art: the rulebook image when it loads (local dev), otherwise a
-   dragon emblem so cards never show a broken image on the deployed site. */
+/* preset-card art: the warband image, or a dragon emblem fallback if it fails to load. */
 function PresetArt({ src }) {
   const ok = useImageOk(src);
   if (src && ok) return <span className="xr-preset-img" style={{ backgroundImage: `url(${src})` }} aria-hidden="true" />;
