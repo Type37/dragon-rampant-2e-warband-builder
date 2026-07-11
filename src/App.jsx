@@ -2916,7 +2916,11 @@ const CSS = `
 .xr-mastpop-ok svg,.xr-mastpop-h svg{flex:none;}
 .xr-detname::placeholder{color:var(--ink-2);opacity:.7;}
 .xr-detname:focus{outline:none;border-bottom-color:var(--coral);}
-.xr-actions{display:flex;gap:8px;flex-wrap:wrap;}
+/* missing margin-left:auto (present in the sibling XR app) meant this row sat
+   wherever its content pushed it instead of flush against the mast's right
+   edge, so the right:0-anchored .xr-settings-pop anchored to the row's own
+   right edge instead of the viewport's and rendered off-screen to the left */
+.xr-actions{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;}
 .xr-mast-row2{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;}
 .xr-budget{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .xr-budget-l{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink-2);margin-right:2px;}
@@ -3125,6 +3129,14 @@ const CSS = `
 /* abilities summary in the unit panel */
 .xr-abil{margin-top:18px;padding-top:4px;}
 .xr-abil-bar{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+/* buy-abilities dialog search: was a bare, unstyled input with no CSS rule at
+   all, so it rendered at the browser default height (~21px), well under the
+   44px minimum tap target on any viewport */
+.xr-abil-searchbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.xr-abil-search{flex:1;min-width:0;height:44px;font-family:var(--body);font-size:15.5px;color:var(--ink);background:var(--paper-2);border:2px solid var(--ink-30);border-radius:10px;padding:0 14px;transition:border-color .12s,background .12s;}
+.xr-abil-search::placeholder{color:var(--ink-2);opacity:.75;}
+.xr-abil-search:hover{border-color:var(--ink);}
+.xr-abil-search:focus{outline:none;border-color:var(--coral);background:var(--paper);}
 .xr-abil-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 .xr-abil-h{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.4;color:var(--ink);}
 .xr-abil-list{display:flex;flex-direction:column;gap:7px;}
@@ -3341,7 +3353,16 @@ const CSS = `
 /* smooth sliding tabs (add-unit categories) */
 .xr-stabs{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);margin:12px clamp(14px,3vw,20px);padding:4px;background:var(--paper-3);border-radius:11px;border:2px solid var(--ink-30);}
 .xr-stabs-ind{position:absolute;top:4px;bottom:4px;left:calc(4px + var(--i) * (100% - 8px) / var(--n));width:calc((100% - 8px)/var(--n));border-radius:8px;background:var(--brand-deep);box-shadow:var(--shadow4);transition:left var(--dur-gentle) var(--curve-ease-max);}
-.xr-stab{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;font-family:var(--ui);font-weight:600;font-size:16px;color:var(--ink-2);border-radius:8px;transition:color var(--dur-fast) var(--curve-ease);}
+/* .xr-stab had no min-width:0, so the grid track for a tab like "Warbeasts"
+   grew to the label's intrinsic min-content width instead of its 1fr share,
+   overflowing the tab strip past the modal edge on a phone screen. Ported
+   from the sibling XR app, which already carries this fix plus narrower
+   breakpoints for the label. */
+.xr-stab{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:0;padding:0 4px;font-family:var(--ui);font-weight:600;font-size:16px;color:var(--ink-2);border-radius:8px;transition:color var(--dur-fast) var(--curve-ease);}
+.xr-stabs .xr-stab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+.xr-stabs .xr-stab svg{flex:none;}
+@media(max-width:480px){.xr-stabs .xr-stab{gap:5px;font-size:14px;}.xr-stabs .xr-stab svg{width:16px;height:16px;}}
+@media(max-width:400px){.xr-stabs .xr-stab{flex-direction:column;gap:2px;font-size:12px;line-height:1.1;}}
 .xr-stab:hover:not(.on){color:var(--ink);}
 .xr-stab.on{color:#fff;}
 .xr-modal-tab{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:16.5px;color:var(--ink-2);border:2px solid var(--ink-30);background:var(--paper);padding:8px 15px;border-radius:9px;min-height:44px;transition:.12s;}
@@ -3447,8 +3468,14 @@ const CSS = `
 .xr-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:6px 10px;flex-wrap:wrap;border-bottom:1.5px solid #1a1a1a;padding-bottom:3px;margin-bottom:7px;}
 .xr-sheet-emblem{flex:none;width:22px;height:22px;color:#1a1a1a;background:transparent;}
 .xr-sheet-emblem.xr-dicon-glyph{background:transparent;}
-.xr-sheet-title{flex:1;min-width:0;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.1;}
-.xr-sheet-meta{font-family:var(--ui);font-weight:500;font-size:11px;color:#555;}
+/* meta ("Dragon Rampant 2e · N/24 pts") never shrank below its own text width
+   (default min-width:auto on a flex item), so all the squeeze landed on the
+   title instead and long warband names overflowed their box. Giving meta
+   flex-basis:100% always drops it to its own full-width line below the
+   title/emblem, so the title keeps the whole row and never has to compete
+   for space; overflow-wrap is a backstop for a single very long name. */
+.xr-sheet-title{flex:1;min-width:0;font-family:var(--display);font-weight:700;font-size:17px;line-height:1.1;overflow-wrap:break-word;}
+.xr-sheet-meta{flex:1 0 100%;font-family:var(--ui);font-weight:500;font-size:11px;color:#555;}
 .xr-sheet-natl{font-family:var(--flavor);font-style:italic;font-size:13.5px;line-height:1.4;margin:0 0 8px;padding:6px 10px;border-left:4px solid #8A6A1F;background:#8A6A1F14;}
 .xr-sheet-natl b{font-style:normal;}
 .xr-sheet-natl b{color:#6b5218;}
@@ -3655,6 +3682,18 @@ const CSS = `
   .xr-build-body.has-sel .xr-detail{display:block;animation:xr-fade .18s ease;}
   .xr-panel-back{display:flex;}
   .xr-detail-hint{display:none;}
+  /* the panel head packs close/picture/name/roll/pts/leader into one row; at
+     phone widths those fixed-size controls alone exceed the available width,
+     so the flexible name field gets squeezed to nothing (or a hard 0px once
+     the Leader badge is showing) and the leader button overflows. Drop the
+     least essential control, shrink the rest, and let the row wrap so the
+     name field always keeps a legible floor width instead of collapsing. */
+  .xr-name-roll{display:none;}
+  .xr-panel-head .xr-imgup.square,.xr-panel-head .xr-imgup.square .xr-imgup-thumb,.xr-panel-head .xr-imgup.square .xr-imgup-add{width:46px;height:46px;border-radius:9px;}
+  .xr-panel-head{flex-wrap:wrap;}
+  .xr-panel-id{flex:1 1 140px;min-width:140px;}
+  .xr-cmd-btn{margin-left:auto;flex-direction:column;gap:2px;padding:6px 8px;min-width:48px;min-height:44px;white-space:normal;}
+  .xr-cmd-btn span{display:block;font-size:9.5px;font-weight:700;line-height:1.05;text-align:center;letter-spacing:.01em;text-transform:uppercase;}
   .xr-stt-head,.xr-stt-row{grid-template-columns:1fr 88px 96px;}
   .xr-pcard-dice{grid-template-columns:repeat(2,1fr);}
   .xr-row-text{padding-left:4px;}
@@ -3682,6 +3721,11 @@ const CSS = `
      column fixes both and gives the act/stat grids real room */
   .xr-pick-grid{grid-template-columns:1fr;gap:12px;}
   .xr-modal-body{padding:14px 14px 20px;}
+  /* print preview: the base rule's minmax(310px,1fr) columns are wider than
+     the sheet's own content box on a phone screen (the @media print override
+     only applies to the physical page, not this on-screen preview), so cards
+     overflowed the sheet horizontally */
+  .xr-sheet-cards{grid-template-columns:1fr;}
   /* the per-unit duplicate/remove buttons were 24px squares, too small to tap
      reliably on a phone; give them a proper target without dominating the row */
   .xr-urow-tools{width:82px;gap:7px;right:8px;}
