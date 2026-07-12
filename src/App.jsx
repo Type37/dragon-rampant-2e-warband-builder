@@ -234,6 +234,104 @@ const DETACH_ICONS = (() => {
 })();
 const randomEmblemId = () => FANTASY_EMBLEM_IDS[Math.floor(Math.random() * FANTASY_EMBLEM_IDS.length)];
 
+/* ── emblem picker: type + setting metadata ──────────────────────────────── */
+const ICON_CATS = [
+  { id: "all",      name: "All types",         short: "All",      col: null },
+  { id: "combat",   name: "Arms & Shields",    short: "Arms",     col: "var(--sage)" },
+  { id: "beasts",   name: "Beasts & Monsters", short: "Beasts",   col: "var(--iris)" },
+  { id: "skulls",   name: "Skulls & Death",    short: "Skulls",   col: "var(--rust)" },
+  { id: "factions", name: "Faction Marks",     short: "Factions", col: "var(--brass)" },
+  { id: "arcane",   name: "Arcane & Mythic",   short: "Arcane",   col: "var(--iris)" },
+];
+const ICON_SETTINGS = [
+  { id: "all",      name: "All settings", short: "All",      col: null },
+  { id: "medieval", name: "Medieval",     short: "Medieval", col: "var(--ink-2)" },
+  { id: "mythic",   name: "Mythic",       short: "Mythic",   col: "var(--sage)" },
+  { id: "dark",     name: "Dark Fantasy", short: "Dark",     col: "#8A3A3A" },
+  { id: "folk",     name: "Folk & Fable", short: "Folk",     col: "var(--brass)" },
+  { id: "lore",     name: "Lore",         short: "Lore",     col: "var(--iris)" },
+];
+const EMBLEM_META = {
+  /* combat */
+  "crossed-swords":                      { cat: "combat",   setting: "medieval" },
+  "spartan-helmet":                      { cat: "combat",   setting: "medieval" },
+  "eagle-emblem":                        { cat: "combat",   setting: "medieval" },
+  "checked-shield":                      { cat: "combat",   setting: "medieval" },
+  "mailed-fist":                         { cat: "combat",   setting: "medieval" },
+  "centurion-helmet":                    { cat: "combat",   setting: "medieval" },
+  "visored-helm":                        { cat: "combat",   setting: "medieval" },
+  "barbute":                             { cat: "combat",   setting: "medieval" },
+  "knight-banner":                       { cat: "combat",   setting: "medieval" },
+  "mounted-knight":                      { cat: "combat",   setting: "medieval" },
+  "ms-swords":                           { cat: "combat",   setting: "medieval",  name: "Crossed Swords" },
+  "mdi-knight":                          { cat: "combat",   setting: "medieval",  name: "Chess Knight" },
+  "ic-shieldmoon":                       { cat: "combat",   setting: "mythic",    name: "Shield Moon" },
+  "game-icons-warlord-helmet":           { cat: "combat",   setting: "medieval",  name: "Warlord Helmet" },
+  "material-symbols-chess-knight-sharp": { cat: "combat",   setting: "medieval",  name: "Knight" },
+  "black-knight-helm":                   { cat: "combat",   setting: "dark",      name: "Black Knight Helm" },
+  "sword-altar":                         { cat: "combat",   setting: "mythic",    name: "Sword Altar" },
+  "axe-sword":                           { cat: "combat",   setting: "medieval",  name: "Axe & Sword" },
+  "chess-knight":                        { cat: "combat",   setting: "medieval",  name: "Chess Knight" },
+  "soul-knight":                         { cat: "combat",   setting: "dark",      name: "Soul Knight" },
+  "torc":                                { cat: "combat",   setting: "folk",      name: "Torc" },
+  "dwarf-helmet":                        { cat: "combat",   setting: "folk",      name: "Dwarf Helmet" },
+  "elf-helmet":                          { cat: "combat",   setting: "mythic" },
+  /* beasts */
+  "wolf-head":                           { cat: "beasts",   setting: "folk" },
+  "dragon-head":                         { cat: "beasts",   setting: "mythic" },
+  "bear-face":                           { cat: "beasts",   setting: "folk" },
+  "double-dragon":                       { cat: "beasts",   setting: "mythic" },
+  "dragon-spiral":                       { cat: "beasts",   setting: "mythic" },
+  "wolf-howl":                           { cat: "beasts",   setting: "folk" },
+  "hydra":                               { cat: "beasts",   setting: "mythic" },
+  "tiger-head":                          { cat: "beasts",   setting: "folk" },
+  "raven":                               { cat: "beasts",   setting: "dark" },
+  "spider-alt":                          { cat: "beasts",   setting: "dark" },
+  "monster-grasp":                       { cat: "beasts",   setting: "dark" },
+  "fa-dragon":                           { cat: "beasts",   setting: "mythic",    name: "Dragon" },
+  "spiked-dragon-head":                  { cat: "beasts",   setting: "mythic",    name: "Spiked Dragon Head" },
+  "dragon-shield":                       { cat: "beasts",   setting: "mythic",    name: "Dragon Shield" },
+  "sea-dragon":                          { cat: "beasts",   setting: "mythic",    name: "Sea Dragon" },
+  "icon-park-solid-dragon-zodiac":       { cat: "beasts",   setting: "mythic",    name: "Dragon Zodiac" },
+  "goblin":                              { cat: "beasts",   setting: "folk",      name: "Goblin" },
+  "orc-head":                            { cat: "beasts",   setting: "folk",      name: "Orc Head" },
+  "metal-golem-head":                    { cat: "beasts",   setting: "mythic",    name: "Golem Head" },
+  /* skulls */
+  "skull-crossed-bones":                 { cat: "skulls",   setting: "dark" },
+  "death-skull":                         { cat: "skulls",   setting: "dark" },
+  "crowned-skull":                       { cat: "skulls",   setting: "dark" },
+  "fa-skull":                            { cat: "skulls",   setting: "dark",      name: "Skull" },
+  /* factions */
+  "elf-woman":                           { cat: "factions", setting: "mythic",    name: "Elf Woman" },
+  "dwarf-king":                          { cat: "factions", setting: "folk",      name: "Dwarf King" },
+  "dwarf-face":                          { cat: "factions", setting: "folk",      name: "Dwarf Face" },
+  "taskwarrior":                         { cat: "factions", setting: "lore",      name: "Taskwarrior" },
+  "goblin-tools":                        { cat: "factions", setting: "lore",      name: "Goblin Tools" },
+  "dropwizard":                          { cat: "factions", setting: "lore",      name: "Dropwizard" },
+  "si-magic":                            { cat: "factions", setting: "lore",      name: "Magic" },
+  "si-redragon":                         { cat: "factions", setting: "lore",      name: "Red Dragon" },
+  /* arcane */
+  "crown":                               { cat: "arcane",   setting: "medieval" },
+  "laurel-crown":                        { cat: "arcane",   setting: "medieval" },
+  "angel-wings":                         { cat: "arcane",   setting: "mythic" },
+  "flame":                               { cat: "arcane",   setting: "mythic" },
+  "magic-palm":                          { cat: "arcane",   setting: "mythic",    name: "Magic Palm" },
+  "magic-lamp":                          { cat: "arcane",   setting: "folk",      name: "Magic Lamp" },
+  "magic-gate":                          { cat: "arcane",   setting: "mythic",    name: "Magic Gate" },
+  "warlock-eye":                         { cat: "arcane",   setting: "dark",      name: "Warlock Eye" },
+  "wizard-staff":                        { cat: "arcane",   setting: "mythic",    name: "Wizard Staff" },
+  "wizard-hat":                          { cat: "arcane",   setting: "folk",      name: "Wizard Hat" },
+  "fa-khanda":                           { cat: "arcane",   setting: "mythic",    name: "Khanda" },
+  "elven-castle":                        { cat: "arcane",   setting: "mythic",    name: "Elven Castle" },
+  "medieval-pavilion":                   { cat: "arcane",   setting: "medieval",  name: "Medieval Pavilion" },
+  "medieval-gate":                       { cat: "arcane",   setting: "medieval",  name: "Medieval Gate" },
+};
+const _idToName = (id) => id.replace(/^(gi-|fa-|fi-|ic-|im-|cil-|ar-|mdi-|hi-|ms-|tb-|si-|mi-|streamline-\w+-|meteor-icons-|arcticons-|icon-park-\w+-|game-icons-|simple-icons-|healthicons-|material-\w+-|cryptocurrency-|token-|picon-|energy-|winged-|chemical-|akar-|tap-)/, "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+const DETACH_ICON_LIST_META = DETACH_ICON_LIST.map((item) => {
+  const m = EMBLEM_META[item.id] || {};
+  return { ...item, cat: m.cat || "arcane", setting: m.setting || "medieval", name: m.name || _idToName(item.id) };
+});
+
 /* one big pool of faction names for the "get a random one" link */
 const ALL_NAMES = ALL_GENRES.flatMap((g) => g.groups.flatMap((gr) => gr.factions.flatMap((f) => f.pool || [])));
 
@@ -1021,28 +1119,165 @@ function FloatingField({ label, value, onChange, textarea, rows, autoFocus, onEn
   );
 }
 
-/* pick a badge/emblem from a set, or choose to upload a picture instead */
-function IconPickerModal({ onPick, onUpload, onClose }) {
+/* pick a badge/emblem from the full library, with two-axis filtering */
+function IconPickerModal({ current, onPick, onUpload, onClose }) {
+  const [cat, setCat] = useState("all");
+  const [setting, setSetting] = useState("all");
+  const [q, setQ] = useState("");
+  const [sort, setSort] = useState("def");
+  const [sel, setSel] = useState(current || null);
+
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const fn = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", fn);
+    return () => window.removeEventListener("keydown", fn);
   }, [onClose]);
+
+  const filtered = useMemo(() => {
+    let L = DETACH_ICON_LIST_META.filter(
+      (e) => (cat === "all" || e.cat === cat) && (setting === "all" || e.setting === setting)
+    );
+    if (q) { const lq = q.toLowerCase(); L = L.filter((e) => e.name.toLowerCase().includes(lq)); }
+    if (sort === "az") L = [...L].sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "cat") L = [...L].sort((a, b) => a.cat.localeCompare(b.cat) || a.name.localeCompare(b.name));
+    return L;
+  }, [cat, setting, q, sort]);
+
+  const catCt = (cid) => {
+    const base = setting === "all" ? DETACH_ICON_LIST_META : DETACH_ICON_LIST_META.filter((e) => e.setting === setting);
+    return cid === "all" ? base.length : base.filter((e) => e.cat === cid).length;
+  };
+  const setCt = (sid) => {
+    const base = cat === "all" ? DETACH_ICON_LIST_META : DETACH_ICON_LIST_META.filter((e) => e.cat === cat);
+    return sid === "all" ? base.length : base.filter((e) => e.setting === sid).length;
+  };
+
+  const selItem = sel ? DETACH_ICON_LIST_META.find((e) => e.id === sel) : null;
+  const selCatName = selItem ? (ICON_CATS.find((c) => c.id === selItem.cat)?.name || "") : "";
+  const selSetName = selItem ? (ICON_SETTINGS.find((s) => s.id === selItem.setting)?.name || "") : "";
+
+  const secLabel = q ? "Search results"
+    : cat !== "all" && setting !== "all" ? `${ICON_CATS.find((c) => c.id === cat)?.name} · ${ICON_SETTINGS.find((s) => s.id === setting)?.name}`
+    : cat !== "all" ? ICON_CATS.find((c) => c.id === cat)?.name
+    : setting !== "all" ? ICON_SETTINGS.find((s) => s.id === setting)?.name
+    : "All emblems";
+
   return (
-    <div className="xr-modal-backdrop" onClick={onClose}>
-      <div className="xr-modal xr-modal-narrow xr-modal-tall" role="dialog" aria-modal="true" aria-label="Choose an emblem" onClick={(e) => e.stopPropagation()}>
-        <div className="xr-modal-head">
+    <div className="xr-modal-backdrop xr-epicker-back" onClick={onClose}>
+      <div className="xr-epicker" role="dialog" aria-modal="true" aria-label="Choose an emblem" onClick={(e) => e.stopPropagation()}>
+
+        <div className="xr-epicker-head">
           <span className="xr-modal-title"><Image size={20} /> Choose an emblem</span>
           <button className="xr-iconbtn" onClick={onClose} aria-label="Close"><XIc size={20} /></button>
         </div>
-        <div className="xr-modal-body">
-          <button className="xr-btn xr-iconpick-upload" onClick={onUpload}><Image size={18} /> Upload your own picture</button>
-          <div className="xr-iconpick-grid">
-            {DETACH_ICONS.map(({ id, C }) => (
-              <button key={id} className="xr-iconpick-cell" onClick={() => onPick(id)} aria-label={id.replace(/-/g, " ")}>
-                <C size={52} />
-              </button>
-            ))}
+
+        <div className="xr-epicker-layout">
+
+          {/* sidebar: desktop only */}
+          <aside className="xr-epicker-side">
+            <div className="xr-epicker-side-body">
+              <p className="xr-epicker-side-hd">Type</p>
+              {ICON_CATS.map((c) => (
+                <button key={c.id} className={`xr-epicker-citem${cat === c.id ? " on" : ""}`} onClick={() => setCat(c.id)}>
+                  <span className="xr-epicker-dot" style={c.col ? { background: c.col } : {}} />
+                  <span className="xr-epicker-cname">{c.name}</span>
+                  <span className="xr-epicker-cct">{catCt(c.id)}</span>
+                </button>
+              ))}
+              <div className="xr-epicker-divider" />
+              <p className="xr-epicker-side-hd">Setting</p>
+              {ICON_SETTINGS.map((s) => (
+                <button key={s.id} className={`xr-epicker-citem${setting === s.id ? " on" : ""}`} onClick={() => setSetting(s.id)}>
+                  <span className="xr-epicker-dot" style={s.col ? { background: s.col } : {}} />
+                  <span className="xr-epicker-cname">{s.name}</span>
+                  <span className="xr-epicker-cct">{setCt(s.id)}</span>
+                </button>
+              ))}
+            </div>
+            <div className="xr-epicker-side-foot">
+              <button className="xr-btn small" onClick={onUpload}><Image size={16} /> Upload image</button>
+            </div>
+          </aside>
+
+          {/* main content */}
+          <div className="xr-epicker-main">
+
+            {/* mobile pill rows (hidden on desktop via CSS) */}
+            <div className="xr-epicker-pills">
+              <div className="xr-epicker-prow">
+                <span className="xr-epicker-plbl">Type</span>
+                <div className="xr-epicker-pscroll">
+                  {ICON_CATS.map((c) => (
+                    <button key={c.id} className={`xr-epicker-pill${cat === c.id ? " on" : ""}`} onClick={() => setCat(c.id)}>
+                      {c.col && <span className="xr-epicker-pdot" style={{ background: c.col }} />}
+                      {c.short}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="xr-epicker-prow xr-epicker-prow2">
+                <span className="xr-epicker-plbl">Setting</span>
+                <div className="xr-epicker-pscroll">
+                  {ICON_SETTINGS.map((s) => (
+                    <button key={s.id} className={`xr-epicker-pill${setting === s.id ? " on" : ""}`} onClick={() => setSetting(s.id)}>
+                      {s.col && <span className="xr-epicker-pdot" style={{ background: s.col }} />}
+                      {s.short}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* search + sort */}
+            <div className="xr-epicker-toolbar">
+              <input className="xr-epicker-search" type="search" placeholder="Search emblems…"
+                value={q} onChange={(e) => setQ(e.target.value)} />
+              <select className="xr-epicker-sort" value={sort} onChange={(e) => setSort(e.target.value)}>
+                <option value="def">Default</option>
+                <option value="az">A – Z</option>
+                <option value="cat">By type</option>
+              </select>
+            </div>
+
+            {/* icon grid */}
+            <div className="xr-epicker-grid-wrap">
+              <div className="xr-epicker-sec-lbl">
+                {secLabel}<span className="xr-epicker-ct">{filtered.length}</span>
+              </div>
+              {filtered.length === 0
+                ? <p className="xr-epicker-empty">Nothing matches — try broadening the filters.</p>
+                : <div className="xr-epicker-grid">
+                    {filtered.map(({ id, C, name }) => (
+                      <button key={id}
+                        className={`xr-epicker-cell${sel === id ? " sel" : ""}${sel && sel !== id ? " dim" : ""}`}
+                        onClick={() => setSel(sel === id ? null : id)}
+                        aria-label={name} aria-pressed={sel === id} title={name}>
+                        <C size={40} />
+                        <span className="xr-epicker-tip">{name}</span>
+                      </button>
+                    ))}
+                  </div>}
+            </div>
+
+            {/* confirm / upload footer */}
+            <div className="xr-epicker-foot">
+              {selItem ? (
+                <>
+                  <span className="xr-epicker-foot-prev"><selItem.C size={22} /></span>
+                  <span className="xr-epicker-foot-info">
+                    {selItem.name}<em>{selCatName} · {selSetName}</em>
+                  </span>
+                  <button className="xr-btn small" onClick={() => setSel(null)}>Clear</button>
+                  <button className="xr-btn" onClick={() => { onPick(sel); }}>Use this emblem</button>
+                </>
+              ) : (
+                <>
+                  <button className="xr-btn xr-epicker-upload-m" onClick={onUpload}><Image size={16} /> Upload your own image</button>
+                  <span className="xr-epicker-foot-empty">Select an emblem above.</span>
+                </>
+              )}
+            </div>
+
           </div>
         </div>
       </div>
@@ -1116,7 +1351,7 @@ function NewArmyModal({ onCreate, onClose, collections = [] }) {
           <button className="xr-btn primary" onClick={create}><Plus size={17} /> Create warband</button>
         </div>
       </div>
-      {picking && <IconPickerModal onPick={(id) => { setIcon(id); setImage(null); setPicking(false); }} onUpload={() => { setPicking(false); inputRef.current && inputRef.current.click(); }} onClose={() => setPicking(false)} />}
+      {picking && <IconPickerModal current={icon} onPick={(id) => { setIcon(id); setImage(null); setPicking(false); }} onUpload={() => { setPicking(false); inputRef.current && inputRef.current.click(); }} onClose={() => setPicking(false)} />}
     </div>
   );
 }
@@ -2235,7 +2470,7 @@ function Builder({ list, selectedKey, dispatch, updateList, onDelete }) {
 
       {adding && <AddUnitModal onAdd={(id) => { dispatch({ type: "add", typeId: id }); setAdding(false); toast(`${UNIT_BY_ID[id]?.name || "Unit"} added`); }} onClose={() => setAdding(false)} />}
       {abilOpen && sel && <AbilitiesModal u={sel} dispatch={dispatch} onClose={() => setAbilOpen(false)} />}
-      {emblemOpen && <IconPickerModal onPick={(id) => { updateList({ icon: id, image: undefined }); setEmblemOpen(false); }} onUpload={() => { setEmblemOpen(false); emblemFileRef.current && emblemFileRef.current.click(); }} onClose={() => setEmblemOpen(false)} />}
+      {emblemOpen && <IconPickerModal current={list.icon} onPick={(id) => { updateList({ icon: id, image: undefined }); setEmblemOpen(false); }} onUpload={() => { setEmblemOpen(false); emblemFileRef.current && emblemFileRef.current.click(); }} onClose={() => setEmblemOpen(false)} />}
 
       <SiteFooter />
     </div>
@@ -3213,12 +3448,57 @@ const CSS = `
 .xr-coll-chip{font-family:var(--ui);font-weight:600;font-size:13.5px;color:var(--ink-2);background:var(--paper-2);border:2px solid var(--ink-30);border-radius:20px;padding:4px 12px;min-height:44px;transition:.12s;}
 .xr-coll-chip:hover{border-color:var(--ink);color:var(--ink);}
 .xr-coll-chip.on{background:var(--ink);border-color:var(--ink);color:var(--cream);}
-/* emblem picker */
-.xr-iconpick-upload{width:100%;justify-content:center;margin-bottom:14px;}
-.xr-iconpick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;}
-.xr-iconpick-cell{display:flex;align-items:center;justify-content:center;aspect-ratio:1;color:var(--ink);background:var(--paper-2);border:2px solid var(--ink-30);border-radius:11px;transition:transform .12s,border-color .12s,background .12s;}
-.xr-iconpick-cell svg{width:74%;height:74%;}
-.xr-iconpick-cell:hover{border-color:var(--brand-deep-blue);background:var(--paper-3);transform:translateY(-2px);}
+/* emblem picker — two-pane desktop / bottom-sheet mobile */
+.xr-epicker-back{align-items:center;justify-content:center;}
+.xr-epicker{display:flex;flex-direction:column;width:min(920px,96vw);max-height:88vh;background:var(--paper);border:2px solid var(--ink-30);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.28);}
+.xr-epicker-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid var(--ink-18);flex-shrink:0;}
+.xr-epicker-layout{display:flex;flex:1;min-height:0;}
+.xr-epicker-side{display:flex;flex-direction:column;width:190px;flex-shrink:0;border-right:1px solid var(--ink-18);background:var(--paper-2);}
+.xr-epicker-side-body{flex:1;overflow-y:auto;padding:10px 8px 6px;}
+.xr-epicker-side-hd{font:700 11px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);padding:8px 8px 4px;margin:0;}
+.xr-epicker-citem{display:flex;align-items:center;gap:6px;width:100%;padding:6px 8px;border:none;background:none;border-radius:8px;cursor:pointer;color:var(--ink);font:14px/1.2 var(--body);text-align:left;}
+.xr-epicker-citem:hover{background:var(--paper-3);}
+.xr-epicker-citem.on{background:var(--ink);color:var(--cream);}
+.xr-epicker-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ink-30);flex-shrink:0;}
+.xr-epicker-citem.on .xr-epicker-dot{background:rgba(255,255,255,.5);}
+.xr-epicker-cname{flex:1;}
+.xr-epicker-cct{font:12px/1 var(--mono);color:var(--ink-2);opacity:.7;}
+.xr-epicker-citem.on .xr-epicker-cct{opacity:.8;color:var(--cream);}
+.xr-epicker-divider{border:none;border-top:1px solid var(--ink-18);margin:8px 0;}
+.xr-epicker-side-foot{padding:10px 8px;border-top:1px solid var(--ink-18);}
+.xr-epicker-pills{display:none;flex-direction:column;gap:6px;padding:10px 14px 6px;border-bottom:1px solid var(--ink-18);flex-shrink:0;}
+.xr-epicker-prow{display:flex;align-items:center;gap:8px;overflow:hidden;}
+.xr-epicker-plbl{font:700 10px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);flex-shrink:0;width:46px;}
+.xr-epicker-pscroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+.xr-epicker-pscroll::-webkit-scrollbar{display:none;}
+.xr-epicker-pill{display:flex;align-items:center;gap:4px;white-space:nowrap;padding:5px 11px;border-radius:20px;border:1.5px solid var(--ink-30);background:none;color:var(--ink);font:13px/1 var(--body);cursor:pointer;flex-shrink:0;}
+.xr-epicker-pill:hover{background:var(--paper-2);}
+.xr-epicker-pill.on{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.xr-epicker-pdot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.xr-epicker-pill.on .xr-epicker-pdot{opacity:.8;}
+.xr-epicker-main{display:flex;flex-direction:column;flex:1;min-width:0;}
+.xr-epicker-toolbar{display:flex;gap:8px;padding:10px 14px 8px;flex-shrink:0;}
+.xr-epicker-search{flex:1;padding:7px 11px;border:1.5px solid var(--ink-30);border-radius:8px;background:var(--paper-2);color:var(--ink);font:14px/1 var(--body);}
+.xr-epicker-search:focus{outline:none;border-color:var(--ink);}
+.xr-epicker-sort{padding:7px 10px;border:1.5px solid var(--ink-30);border-radius:8px;background:var(--paper-2);color:var(--ink);font:13px/1 var(--body);cursor:pointer;}
+.xr-epicker-grid-wrap{flex:1;overflow-y:auto;padding:0 14px 10px;}
+.xr-epicker-sec-lbl{font:700 11px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);padding:10px 0 6px;display:flex;align-items:center;gap:8px;}
+.xr-epicker-ct{font:12px/1 var(--mono);background:var(--ink-18);border-radius:20px;padding:2px 7px;color:var(--ink);}
+.xr-epicker-empty{color:var(--ink-2);font-style:italic;padding:20px 0;text-align:center;}
+.xr-epicker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:6px;}
+.xr-epicker-cell{display:flex;align-items:center;justify-content:center;aspect-ratio:1;position:relative;border:2px solid var(--ink-30);border-radius:10px;background:var(--paper-2);color:var(--ink);cursor:pointer;transition:border-color .1s,background .1s,transform .1s,opacity .1s;}
+.xr-epicker-cell svg{width:60%;height:60%;}
+.xr-epicker-cell:hover{border-color:var(--coral);background:var(--paper-3);transform:translateY(-2px);}
+.xr-epicker-cell.sel{border-color:var(--ink);background:var(--ink);color:var(--cream);box-shadow:0 0 0 3px var(--coral);}
+.xr-epicker-cell.dim{opacity:.35;}
+.xr-epicker-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font:12px/1.3 var(--body);white-space:nowrap;padding:4px 8px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .12s;z-index:10;}
+.xr-epicker-cell:hover .xr-epicker-tip{opacity:1;}
+.xr-epicker-foot{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--ink-18);flex-shrink:0;min-height:56px;}
+.xr-epicker-foot-prev{display:flex;align-items:center;flex-shrink:0;}
+.xr-epicker-foot-info{flex:1;display:flex;flex-direction:column;gap:2px;font:14px/1.2 var(--body);}
+.xr-epicker-foot-info em{font:11px/1 var(--display);font-style:normal;color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em;}
+.xr-epicker-foot-empty{flex:1;color:var(--ink-2);font-style:italic;font:13px/1 var(--body);}
+.xr-epicker-upload-m{display:none;}
 /* chosen-badge glyph rendering inside the detachment image slots */
 .xr-dicon-glyph{display:flex;align-items:center;justify-content:center;color:var(--ink);background:var(--paper-3);}
 /* collection groups on the dashboard */
@@ -3677,6 +3957,17 @@ const CSS = `
 
 /* ---------- mobile ---------- */
 @media(max-width:880px){
+  /* emblem picker — bottom sheet */
+  .xr-epicker-back{align-items:flex-end;padding:0;}
+  .xr-epicker{width:100%;max-height:92vh;border-radius:18px 18px 0 0;animation:xr-sheet-up .22s ease;}
+  @keyframes xr-sheet-up{from{transform:translateY(60px);opacity:.7}to{transform:none;opacity:1}}
+  .xr-epicker-side{display:none;}
+  .xr-epicker-pills{display:flex;}
+  .xr-epicker-grid{grid-template-columns:repeat(4,1fr);gap:8px;}
+  .xr-epicker-cell svg{width:56%;height:56%;}
+  .xr-epicker-tip{display:none;}
+  .xr-epicker-upload-m{display:flex;}
+  .xr-epicker-side-foot{display:none;}
   .xr-build-body{display:block;}
   .xr-musterdock{align-self:stretch;border-radius:0;border-left:none;border-right:none;justify-content:center;}
   .xr-ulist{padding-bottom:24px;}
