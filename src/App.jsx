@@ -17,8 +17,6 @@ import giSpartan from "@iconify-icons/game-icons/spartan-helmet";
 /* fantasy stat icons (Game-Icons), replacing the sci-fi stat PNGs */
 import giBroadsword from "@iconify-icons/game-icons/broadsword";
 import giBowArrow from "@iconify-icons/game-icons/bow-arrow";
-import giFlyingFlag from "@iconify-icons/game-icons/flying-flag";
-import giShieldStat from "@iconify-icons/game-icons/shield";
 import giBreastplate from "@iconify-icons/game-icons/breastplate";
 import giEagle from "@iconify-icons/game-icons/eagle-emblem";
 import giCheckedShield from "@iconify-icons/game-icons/checked-shield";
@@ -175,15 +173,13 @@ const Sword = mk(icSword), Move = mk(icMove), Shoot = mk(icShoot), Fire = mk(icF
   House = mk(icHouse), Edit = mk(icEdit), Caret = mk(icCaret),
   Book = mk(icBook), Gear = mk(icGear), Image = mk(icImage), Bolt = mk(icBolt), LinkIc = mk(icLink),
   Grip = mk(icGrip);
-/* a few stat icons come from other Iconify sets (not bundled as npm packages),
-   so their icon-data is inlined here. Attack and Shoot are mirrored horizontally
-   (translate + scale(-1,1)) so the blade/arrow points into the sheet, not away. */
-const icBodyArmor = { width: 24, height: 24, body: "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"><path d=\"m13.504 2.638l-.252.207c-.6.495-.9.743-1.252.743s-.652-.248-1.252-.743l-.252-.207c-.487-.401-.73-.602-1.021-.634c-.292-.031-.57.112-1.128.4l-.303.155c-.277.143-.416.215-.491.36s-.058.284-.023.562c.276 2.222 1.961 4.316 4.08 4.945A1.2 1.2 0 0 0 12 8.5a1.2 1.2 0 0 0 .39-.074c2.119-.629 3.804-2.723 4.08-4.945c.035-.278.052-.417-.023-.562s-.214-.217-.49-.36l-.304-.156c-.557-.287-.836-.43-1.128-.399c-.291.032-.534.233-1.02.634\"/><path d=\"M7.478 4c-2.086.407-3.482 1.15-4.759 2.23c-.373.315-.56.473-.648.724c-.29.826.344 3.667 1.126 3.995c.487.204 1.168-.214 2.531-1.05C6.965 9.14 8.483 8.355 10 7.932M16.522 4c2.086.407 3.482 1.15 4.759 2.23c.373.315.56.473.648.724c.29.826-.344 3.667-1.126 3.995c-.487.204-1.168-.214-2.532-1.05C17.036 9.14 15.518 8.355 14 7.932M18 10l-.605 5.442c-.188 1.692-.282 2.538-.851 3.048c-.57.51-1.421.51-3.124.51h-2.84c-1.703 0-2.554 0-3.124-.51s-.663-1.356-.851-3.048L6 10\"/><path d=\"M15.385 19h-6.77c-.255 0-.382 0-.503.014a2.06 2.06 0 0 0-1.162.533c-.089.081-.17.177-.333.368c-.32.376-.481.564-.54.707a.995.995 0 0 0 .637 1.331c.15.047.401.047.902.047h8.768c.5 0 .751 0 .902-.047a.994.994 0 0 0 .638-1.33c-.06-.144-.22-.332-.54-.708c-.164-.191-.245-.287-.334-.368a2.07 2.07 0 0 0-1.162-.533C15.767 19 15.64 19 15.385 19\"/></g>" };
-const icSwordAttack = { width: 24, height: 24, body: "<g transform=\"translate(24,0) scale(-1,1)\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M6.675 1.371H1.372v5.303L12.47 17.773l5.303-5.304zm14.81 12.336l-2.475 2.475l3.99 3.99V23h-2.83l-3.99-3.99l-2.474 2.475l-1.414-1.414l7.778-7.778z\" clip-rule=\"evenodd\"/></g>" };
-const icBowArrowT = { width: 15, height: 15, body: "<g transform=\"translate(15,0) scale(-1,1)\"><path fill=\"currentColor\" d=\"m1 1l5 1l-2.21.73L5 3.94c2.38-1.97 5.54-2.21 9.34-.78c.52.19.78.77.59 1.28c-.18.49-.7.75-1.2.62l-3.8 3.81l1.22 1.22L12 10l2.94 2.54l-2 .4l-.4 2L10 12l.09-.85l-1.22-1.22l-3.81 3.8v.02c.12.49-.14 1-.62 1.18a.996.996 0 0 1-1.28-.59c-1.43-3.8-1.19-6.96.78-9.34l-1.2-1.2L2 6zm3.7 11.68l3.46-3.46l-2.8-2.8C4.15 8 3.91 10.05 4.7 12.68m1.72-7.32l2.8 2.8l3.46-3.46c-2.63-.79-4.68-.55-6.26.66\"/></g>" };
-const StatAttack = mk(icSwordAttack), StatMove = Move, StatShoot = mk(icBowArrowT),
-  StatCourage = mk(giFlyingFlag), StatDefence = mk(giShieldStat), StatArmour = mk(icBodyArmor),
-  StatStrength = Heart;
+import icoAttack from "./assets/stat/attack.png";
+import icoMove from "./assets/stat/move.png";
+import icoShoot from "./assets/stat/shoot.png";
+import icoCourage from "./assets/stat/courage.png";
+import icoDefence from "./assets/stat/defence.png";
+import icoArmour from "./assets/stat/armour.png";
+import icoStrength from "./assets/stat/strength.png";
 
 /* badge/emblem choices offered when starting a detachment; id is stored on the list.
    all monochrome, drawn in the ink colour, and shuffled for the picker below. */
@@ -253,13 +249,13 @@ const UnitIcon = ({ id, size, className }) => (
 );
 
 const STAT_ROWS = [
-  { key: "atk", label: "Attack", Ico: StatAttack, order: true, val: true, tip: "Attack Value: the result needed on one die to hit when Attacking. 2d6 to carry out the order." },
-  { key: "mov", label: "Move", Ico: StatMove, order: true, val: true, tip: "Maximum Movement: the most inches a model in this unit may move. 2d6 to carry out the order." },
-  { key: "sho", label: "Shoot", Ico: StatShoot, order: true, val: true, tip: "Shoot Value / Range: the result needed on one die to hit when Shooting, and its range. 2d6 to carry out the order." },
-  { key: "cou", label: "Courage", Ico: StatCourage, order: true, val: false, tip: "Courage: the total needed on one or two dice to keep calm and carry on." },
-  { key: "def", label: "Defence Value", Ico: StatDefence, order: false, val: true, tip: "Defence Value: the result needed on one die to hit this unit when it is Attacked." },
-  { key: "arm", label: "Armour", Ico: StatArmour, order: false, val: true, tip: "Armour: the number of hits needed to remove one Strength Point." },
-  { key: "sp", label: "Strength Points", Ico: StatStrength, order: false, val: true, tip: "Strength Points: this unit's Strength Points, either 6 or 12." },
+  { key: "atk", label: "Attack", img: icoAttack, order: true, val: true, tip: "Attack Value: the result needed on one die to hit when Attacking. 2d6 to carry out the order." },
+  { key: "mov", label: "Move", img: icoMove, order: true, val: true, tip: "Maximum Movement: the most inches a model in this unit may move. 2d6 to carry out the order." },
+  { key: "sho", label: "Shoot", img: icoShoot, order: true, val: true, tip: "Shoot Value / Range: the result needed on one die to hit when Shooting, and its range. 2d6 to carry out the order." },
+  { key: "cou", label: "Courage", img: icoCourage, order: true, val: false, tip: "Courage: the total needed on one or two dice to keep calm and carry on." },
+  { key: "def", label: "Defence Value", img: icoDefence, order: false, val: true, tip: "Defence Value: the result needed on one die to hit this unit when it is Attacked." },
+  { key: "arm", label: "Armour", img: icoArmour, order: false, val: true, tip: "Armour: the number of hits needed to remove one Strength Point." },
+  { key: "sp", label: "Strength Points", img: icoStrength, order: false, val: true, tip: "Strength Points: this unit's Strength Points, either 6 or 12." },
 ];
 const ACT_KEYS = [
   { key: "atk", label: "Attack" }, { key: "mov", label: "Move" },
@@ -785,7 +781,7 @@ function StatTable({ t, sp, u, hint = true, spBubbles = false }) {
         const tip = (dir) => (dir === "up" ? "Improved by an ability" : dir === "down" ? "Lowered by an ability" : "Changed by an ability");
         return (
           <div className="xr-stt-row" key={row.key} title={row.tip}>
-            <span className="xr-stt-stat"><row.Ico className="xr-stt-ic" size={26} />{row.label}</span>
+            <span className="xr-stt-stat"><img className="xr-stt-ic" src={row.img} alt="" width="28" height="28" />{row.label}</span>
             <span className={`xr-stt-cell ${modO ? "mod " + (dirO || "") : ""}`} title={modO ? tip(dirO) : undefined}>
               {o ? <Die k={row.key} free={o.free}>{o.val}</Die> : <span className="xr-dash">-</span>}
               {modO && <span className={`xr-mod-dir ${dirO || "neutral"}`} aria-hidden="true">{dirO === "up" ? "▲" : dirO === "down" ? "▼" : "●"}</span>}
@@ -1903,12 +1899,12 @@ function CustomAbilityForm({ initial, onSave, onCancel }) {
 }
 
 const CATALOG_STATS = [
-  { Ico: StatAttack, label: "Attack", get: (t) => t.prof.atk },
-  { Ico: StatDefence, label: "Defence", get: (t) => t.prof.def },
-  { Ico: StatShoot, label: "Shoot", get: (t) => splitRange(t.prof.sho).main },
-  { Ico: StatArmour, label: "Armour", get: (t) => t.prof.arm },
-  { Ico: StatMove, label: "Move", get: (t) => t.prof.mov },
-  { Ico: StatStrength, label: "Strength", get: (t) => t.sp },
+  { img: icoAttack, label: "Attack", get: (t) => t.prof.atk },
+  { img: icoDefence, label: "Defence", get: (t) => t.prof.def },
+  { img: icoShoot, label: "Shoot", get: (t) => splitRange(t.prof.sho).main },
+  { img: icoArmour, label: "Armour", get: (t) => t.prof.arm },
+  { img: icoMove, label: "Move", get: (t) => t.prof.mov },
+  { img: icoStrength, label: "Strength", get: (t) => t.sp },
 ];
 const CatalogCard = React.memo(function CatalogCard({ t, onAdd }) {
   const stdRules = t.special.filter((s) => s !== "None");
@@ -1935,7 +1931,7 @@ const CatalogCard = React.memo(function CatalogCard({ t, onAdd }) {
           const v = raw == null || raw === "n/a" || raw === "—" ? "-" : String(raw);
           return (
             <span className="xr-cat-stat" key={s.label} title={s.label}>
-              <s.Ico size={20} />
+              <img src={s.img} alt="" width="20" height="20" />
               <b>{v}</b>
             </span>
           );
@@ -2424,7 +2420,7 @@ function PlayView({ list }) {
                   if (!v) return null;
                   return (
                     <span key={d.key} title={d.tip}>
-                      <d.Ico size={14} />{d.label} <b>{v.main}{v.range && <i>{v.range}</i>}</b>
+                      <img src={d.img} alt="" width="15" height="15" />{d.label} <b>{v.main}{v.range && <i>{v.range}</i>}</b>
                     </span>
                   );
                 })}
@@ -2790,7 +2786,7 @@ const CSS = `
 .xr-stt-row{display:grid;grid-template-columns:170px 76px 1fr;gap:4px 8px;align-items:center;padding:6px 8px;border-radius:6px;}
 .xr-stt-row:nth-child(even){background:var(--paper-2);}
 .xr-stt-stat{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:17px;}
-.xr-stt-ic{width:26px;height:26px;flex:none;color:var(--coral-ink);}
+.xr-stt-ic{width:28px;height:28px;object-fit:contain;flex:none;}
 .xr-stt-cell{position:relative;display:flex;align-items:baseline;white-space:nowrap;min-width:0;}
 .xr-stt-cell b{font-family:var(--mono);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;flex:none;}
 /* modified stats: blue = improved, amber = worsened; the arrow shape carries it for colourblind readers */
