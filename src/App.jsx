@@ -273,7 +273,7 @@ const EMBLEM_META = {
   "axe-sword":                           { cat: "combat",   setting: "medieval",  name: "Axe & Sword" },
   "chess-knight":                        { cat: "combat",   setting: "medieval",  name: "Chess Knight" },
   "soul-knight":                         { cat: "combat",   setting: "dark",      name: "Soul Knight" },
-  "torc":                                { cat: "combat",   setting: "folk",      name: "Torc" },
+  "torc":                                { cat: "arcane",   setting: "folk",      name: "Torc" },
   "dwarf-helmet":                        { cat: "combat",   setting: "folk",      name: "Dwarf Helmet" },
   "elf-helmet":                          { cat: "combat",   setting: "mythic" },
   /* beasts */
@@ -306,10 +306,10 @@ const EMBLEM_META = {
   "dwarf-king":                          { cat: "factions", setting: "folk",      name: "Dwarf King" },
   "dwarf-face":                          { cat: "factions", setting: "folk",      name: "Dwarf Face" },
   "taskwarrior":                         { cat: "factions", setting: "lore",      name: "Taskwarrior" },
-  "goblin-tools":                        { cat: "factions", setting: "lore",      name: "Goblin Tools" },
-  "dropwizard":                          { cat: "factions", setting: "lore",      name: "Dropwizard" },
-  "si-magic":                            { cat: "factions", setting: "lore",      name: "Magic" },
-  "si-redragon":                         { cat: "factions", setting: "lore",      name: "Red Dragon" },
+  "goblin-tools":                        { cat: "beasts",   setting: "lore",      name: "Goblin Tools" },
+  "dropwizard":                          { cat: "arcane",   setting: "lore",      name: "Dropwizard" },
+  "si-magic":                            { cat: "arcane",   setting: "lore",      name: "Magic" },
+  "si-redragon":                         { cat: "beasts",   setting: "lore",      name: "Red Dragon" },
   /* arcane */
   "crown":                               { cat: "arcane",   setting: "medieval" },
   "laurel-crown":                        { cat: "arcane",   setting: "medieval" },
