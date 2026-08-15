@@ -8,7 +8,7 @@
 
 </div>
 
-Assemble and print your warband in this unofficial warband builder for [Dragon Rampant](https://www.ospreypublishing.com/us/dragon-rampant-second-edition-9781472858672/), published by Osprey Games. Unofficial builder by WarLore.
+Assemble and print your warband in this unofficial warband builder for [Dragon Rampant](https://www.ospreypublishing.com/us/dragon-rampant-second-edition-9781472858672/), published by Osprey Games. This web app was designed by WarLore.
 
 ## What it does
 
