@@ -6,8 +6,14 @@
     <meta name="theme-color" content="#FAF7F1" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
-    <title>Dragon Rampant 2e Warband Builder | Free List Tool</title>
-    <meta name="description" content="Free online warband builder for Dragon Rampant, second edition. Build a legal Warband, track points live, add fantastical upgrades and spells, designate a Leader, and print your roster." />
+    <title>Dragon Rampant 2e Warband Builder</title>
+    <!-- One sentence, the same shape across all five WarLore builders: what you
+         do with it, whose game it is, who published the game, who made the
+         tool. The word "unofficial" appears twice on purpose, once about the
+         tool and once as the credit, because it is the thing a publisher and a
+         stranger both need to read first. The feature list that used to live
+         here is gone: a description is not a changelog. -->
+    <meta name="description" content="Assemble and print your warband in this unofficial warband builder for Dragon Rampant, published by Osprey Games. Unofficial builder by WarLore" />
     <link rel="canonical" href="https://type37.github.io/dragon-rampant-2e-warband-builder/" />
     <meta name="keywords" content="Dragon Rampant, Dragon Rampant 2e, warband builder, army builder, army list builder, roster, points calculator, fantastical upgrades, spells, Osprey Games, fantasy wargame" />
     <meta name="author" content="WarLore" />
@@ -15,14 +21,28 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Dragon Rampant 2e Warband Builder" />
-    <meta property="og:description" content="Build a legal Dragon Rampant (2nd edition) Warband, track points live, add fantastical upgrades and spells, and print your roster. Free, no login." />
+    <meta property="og:description" content="Assemble and print your warband in this unofficial warband builder for Dragon Rampant, published by Osprey Games. Unofficial builder by WarLore" />
     <meta property="og:url" content="https://type37.github.io/dragon-rampant-2e-warband-builder/" />
     <meta property="og:site_name" content="WarLore" />
+    <!-- This page had no og:image at all, so every link to it unfurled as a
+         bare title on a grey rectangle while the other four builders showed a
+         picture. ?v= bumps with the file: Discord, Slack, iMessage and Twitter
+         re-host the image on their own proxy and key that cache on the URL, so
+         replacing og-image.png without changing the query string leaves the old
+         one being served for days. Regenerate with scripts/og-shot.mjs. -->
+    <meta property="og:image" content="https://type37.github.io/dragon-rampant-2e-warband-builder/og-image.png?v=1" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="A Knights of the Shining Citadel warband open in the Builder: unit rows on the left, the Knights stat table on the right with its activation and profile values" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <!-- summary_large_image, not summary: there is a 1200x630 card now, and
+         summary would show it as a small square thumbnail beside the text. -->
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Dragon Rampant 2e Warband Builder" />
-    <meta name="twitter:description" content="Build a legal Dragon Rampant (2nd edition) Warband, track points live, and print your roster. Free, no login." />
+    <meta name="twitter:description" content="Assemble and print your warband in this unofficial warband builder for Dragon Rampant, published by Osprey Games. Unofficial builder by WarLore" />
+    <meta name="twitter:image" content="https://type37.github.io/dragon-rampant-2e-warband-builder/og-image.png?v=1" />
 
     <!-- Structured data: this page is the web app itself -->
     <script type="application/ld+json">
@@ -34,7 +54,7 @@
       "applicationCategory": "GameApplication",
       "operatingSystem": "Any (web browser)",
       "browserRequirements": "Requires JavaScript",
-      "description": "Free online warband builder for the tabletop wargame Dragon Rampant, second edition (Osprey Games, 2024). Build a legal Warband, track points, add fantastical upgrades and spells, designate a Leader, and print a roster.",
+      "description": "Assemble and print your warband in this unofficial warband builder for Dragon Rampant, published by Osprey Games. Unofficial builder by WarLore",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "author": { "@type": "Organization", "name": "WarLore", "url": "https://jetwong.neocities.org/wargaming" },
       "about": { "@type": "Game", "name": "Dragon Rampant", "publisher": "Osprey Games" }
