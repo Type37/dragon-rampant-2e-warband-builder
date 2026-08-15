@@ -1,53 +1,48 @@
+<div align="center">
+
+[![Dragon Rampant 2e Warband Builder](public/og-image.png)](https://type37.github.io/dragon-rampant-2e-warband-builder/)
+
 # Dragon Rampant 2e Warband Builder
 
-A free browser tool for building a Dragon Rampant (second edition) warband and getting it to
-the table. Made by WarLore.
+### [Open it](https://type37.github.io/dragon-rampant-2e-warband-builder/)
 
-**Use it:** https://type37.github.io/dragon-rampant-2e-warband-builder/
+</div>
 
-## Why this exists
-
-Dragon Rampant is a joy to play, and I want more of my friends playing tabletop games. The
-tedious part is writing the list on paper and adding up the army points by hand, so I got the
-computer to do that part. You pick your units, it keeps the list legal and totals the points as
-you go, and then you print it and play.
+Assemble and print your warband in this unofficial warband builder for [Dragon Rampant](https://www.ospreypublishing.com/us/dragon-rampant-second-edition-9781472858672/), published by Osprey Games. Unofficial builder by WarLore.
 
 ## What it does
 
-- Build a Warband from all thirteen unit types in the book. Every unit option and fantastical
-  upgrade is there, with the full rules text.
-- Points update live and the list checks itself (unit count, per-unit cost, one Leader, and the
-  caps on upgrades like 18/00 Strength and Lucky), so you can't accidentally bring something
-  illegal.
-- Add Spellcasters and pick their colours of magic; the full Spellbook is built in.
-- Designate your Leader (free) and craft them with Leader-only fantastical upgrades.
-- Ready-made lists to start from, including the rulebook's sample Warband at 24, 30 and 36 army
-  points.
-- A print sheet laid out for actual use at the table, with an optional Spells section.
-- An at-the-table tracker for damage, activations, Battered status and turns.
-- Share a list as a link. No account, no login, works on a phone.
+- All thirteen unit types, every option and fantastical upgrade, at full rules text.
+- Points update live and the list keeps itself legal, caps included.
+- Spellcasters pick their colours of magic, with the whole Spellbook built in.
+- Ready-made warbands, including the rulebook's sample at 24, 30 and 36 points.
+- Print sheet with an optional Spells section, and a tracker for damage, activations, Battered and turns.
+- Share as a link. No account, works on a phone.
 
-## Running it yourself
+## Design decisions
 
-Small Vite and React app, almost all of it in one file (`src/App.jsx`), no backend.
-Node 18 or newer.
+- Dresses as its own rulebook: near-white pages, warm near-black ink, and the book's deep crimson sampled from the PDF.
+- A port of the [Xenos Rampant builder](https://github.com/Type37/xenos-rampant-force-builder), reskinned and re-dataed. Nothing says "xeno" or "psychic" in the UI any more, even where the code still does.
+- Category tints do the sorting: sage foot, rust mounted, iris beasts, brass Leader.
+- Storage keys are `drb.*` so the two builders cannot clobber each other on the shared github.io origin.
 
-- `npm install` to set up
-- `npm run dev` for a local server
-- `npm run build` for a production build into `dist/`
+## Still to do
 
-Pushing to `main` deploys it to GitHub Pages on its own.
+- No solo or campaign support, unlike the other builders.
+- The unit-name field in the detail pane clips long names instead of growing.
 
-## Credits and the legal bit
+## Run it
 
-Dragon Rampant is by Daniel Mersey, published by Osprey Games. This is a fan tool. It is
-unofficial and not affiliated with Osprey. If you like it,
-[buy the game](https://www.ospreypublishing.com/us/dragon-rampant-second-edition-9781472858672/).
+Vite and React, almost all in `src/App.jsx`, no backend. Node 18+.
 
-Fonts are open source from [Velvetyne](https://velvetyne.fr) under the SIL Open Font License,
-and the license texts ship in `public/fonts/`.
+```bash
+npm install && npm run dev
+```
 
-## Feedback
+Pushing to `main` deploys to Pages.
 
-Bug, feature idea, or a stat I got wrong? Let me know: warlore1@outlook.com, or through the
-WarLore links at https://linktr.ee/warlore
+## Legal
+
+Dragon Rampant is by Daniel Mersey, published by Osprey Games. Unofficial, not affiliated with Osprey. Font licenses ship in `public/fonts/`.
+
+[Buy the game](https://www.ospreypublishing.com/us/dragon-rampant-second-edition-9781472858672/) · [Report a bug](https://github.com/Type37/dragon-rampant-2e-warband-builder/issues/new/choose) · [WarLore](https://linktr.ee/warlore)
