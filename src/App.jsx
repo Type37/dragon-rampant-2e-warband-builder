@@ -932,7 +932,7 @@ const STAT_MODS = {
 };
 /* to-hit targets improve as the number falls (3+ beats 5+); distances, Armour
    and Strength improve as the number rises. */
-const LOWER_IS_BETTER = new Set(["act:cou", "prof:atk", "prof:def", "prof:sho"]);
+const LOWER_IS_BETTER = new Set(["act:atk", "act:mov", "act:sho", "act:cou", "prof:atk", "prof:def", "prof:sho"]);
 const statNum = (block, key, obj) => {
   if (key === "sho") return parseInt(splitRange(obj.sho).main, 10);
   return parseInt(String(obj[key]), 10);
